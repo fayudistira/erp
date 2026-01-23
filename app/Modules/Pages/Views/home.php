@@ -560,7 +560,7 @@
                                                     <span>DETAIL</span>
                                                     <i class="fas fa-chevron-right"></i>
                                                 </a>
-                                                <a href="<?= base_url('enroll/' . $prog['id']) ?>"
+                                                <a href="<?= base_url('daftar/' . $prog['id']) ?>"
                                                     class="btn btn-primary-yellow btn-sm flex-grow-1 fw-bold rounded-pill py-2">
                                                     DAFTAR
                                                 </a>
