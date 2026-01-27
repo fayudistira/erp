@@ -2,6 +2,10 @@
 
 // JANGAN panggil Services::routes() di sini
 
+$routes->group('programs', ['namespace' => 'Modules\Programs\Controllers'], function ($routes) {
+    $routes->get('show/(:segment)', 'ProgramsController::show/$1');
+});
+
 $routes->group('programs', ['namespace' => 'Modules\Programs\Controllers', 'filter' => 'group:admin'], function ($routes) {
 
     $routes->get('/', 'ProgramsController::index');
