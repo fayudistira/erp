@@ -204,7 +204,7 @@
                             <i class="bi bi-info-circle me-1"></i> Biaya pendaftaran: IDR <?= number_format($program['registrationfee'], 0, ',', '.') ?>
                         </p>
 
-                        <a href="#" class="btn btn-primary w-100 py-3 fw-bold shadow-sm mb-3">DAFTAR SEKARANG</a>
+                        <a href="<?= base_url('daftar/' . $program['id']) ?>" class="btn btn-primary w-100 py-3 fw-bold shadow-sm mb-3">DAFTAR SEKARANG</a>
 
                         <div class="text-center">
                             <p class="small text-muted mb-2">Butuh konsultasi program?</p>

@@ -27,6 +27,7 @@ class ProgramsModel extends Model
         'tuition',
         'registrationfee',
         'thumbnails',
+        'deleted_at',
     ];
 
     // Dates
@@ -101,11 +102,12 @@ class ProgramsModel extends Model
     /**
      * Helper untuk decode per baris
      */
-    private function decodeRow(array $row): array
+    protected function decodeRow(array $row): array
     {
         foreach ($this->jsonFields as $field) {
             if (isset($row[$field]) && is_string($row[$field])) {
-                $row[$field] = json_decode($row[$field], true);
+                $decoded = json_decode($row[$field], true);
+                $row[$field] = is_array($decoded) ? $decoded : [];
             }
         }
         return $row;

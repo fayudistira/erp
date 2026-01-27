@@ -4,10 +4,11 @@ namespace Modules\Programs\Controllers;
 
 use App\Controllers\BaseController;
 use Modules\Programs\Models\ProgramsModel;
+use Config\Database;
 
 class ProgramsController extends BaseController
 {
-    protected $programModel;
+    protected ProgramsModel $programModel;
 
     public function __construct()
     {
@@ -16,46 +17,41 @@ class ProgramsController extends BaseController
 
     public function index()
     {
-        // Ambil status dari filter (default 'active')
         $status = $this->request->getGet('status') ?? 'active';
 
-        $model = new \Modules\Programs\Models\ProgramsModel();
-
-        if ($status === 'deleted') {
-            // Hanya mengambil data yang sudah di-soft delete
-            $programs = $model->onlyDeleted()->findAll();
-        } else {
-            // Data normal (aktif)
-            $programs = $model->findAll();
-        }
+        $programs = ($status === 'deleted')
+            ? $this->programModel->onlyDeleted()->findAll()
+            : $this->programModel->findAll();
 
         return view('Modules\Programs\Views\index', [
             'title'    => $status === 'deleted' ? 'Program Terhapus (Trash)' : 'Daftar Program',
             'programs' => $programs,
-            'status'   => $status // Kirim status ke view untuk toggle UI
+            'status'   => $status
         ]);
     }
 
     public function restore($id)
     {
-        $model = new \Modules\Programs\Models\ProgramsModel();
+        $this->programModel
+            ->withDeleted()
+            ->update($id, ['deleted_at' => null]);
 
-        // CodeIgniter soft-delete restore cukup dengan update field deleted_at menjadi null
-        $model->update($id, ['deleted_at' => null]);
-
-        return redirect()->to(base_url('programs?status=deleted'))
+        return redirect()->to('/programs?status=deleted')
             ->with('success', 'Program berhasil dikembalikan.');
     }
 
     public function purge($id)
     {
-        $model = new \Modules\Programs\Models\ProgramsModel();
+        $this->programModel->delete($id, true);
 
-        // Hapus permanen dari database
-        $model->delete($id, true);
+        return redirect()->to('/programs?status=deleted')
+            ->with('success', 'Program dihapus permanen.');
+    }
 
-        return redirect()->to(base_url('programs?status=deleted'))
-            ->with('success', 'Program dihapus secara permanen.');
+    public function delete($id)
+    {
+        $this->programModel->delete($id);
+        return redirect()->to('/programs')->with('success', 'Program dipindahkan ke trash.');
     }
 
     public function create()
@@ -84,13 +80,15 @@ class ProgramsController extends BaseController
 
         $this->programModel->insert($data);
 
-        return redirect()->to(base_url('programs'))->with('success', 'Program berhasil ditambahkan.');
+        return redirect()->to('/programs')->with('success', 'Program berhasil ditambahkan.');
     }
 
     public function edit($id)
     {
         $program = $this->programModel->find($id);
-        if (!$program) return redirect()->to('/programs')->with('error', 'Data tidak ditemukan.');
+        if (!$program) {
+            return redirect()->to('/programs')->with('error', 'Data tidak ditemukan.');
+        }
 
         return view('Modules\Programs\Views\edit', [
             'title'   => 'Edit Program',
@@ -101,12 +99,13 @@ class ProgramsController extends BaseController
     public function update($id)
     {
         $program = $this->programModel->find($id);
-        if (!$program) return redirect()->to('/programs')->with('error', 'Data tidak ditemukan.');
+        if (!$program) {
+            return redirect()->to('/programs')->with('error', 'Data tidak ditemukan.');
+        }
 
-        // Perbaikan: Validasi update tanpa mewajibkan upload foto (permit_empty)
         $rules = [
-            'title'   => 'required|min_length[3]',
-            'tuition' => 'required|numeric',
+            'title'      => 'required|min_length[3]',
+            'tuition'    => 'required|numeric',
             'thumbnails' => 'permit_empty|max_size[thumbnails,2048]|is_image[thumbnails]'
         ];
 
@@ -117,54 +116,30 @@ class ProgramsController extends BaseController
         $data = $this->transformInput($this->request->getPost());
 
         $file = $this->request->getFile('thumbnails');
-        if ($file->isValid() && !$file->hasMoved()) {
+        if ($file && $file->isValid() && !$file->hasMoved()) {
             $fileName = $file->getRandomName();
             $file->move('uploads/programs', $fileName);
             $data['thumbnails'] = $fileName;
 
-            if ($program['thumbnails'] && file_exists('uploads/programs/' . $program['thumbnails'])) {
-                unlink('uploads/programs/' . $program['thumbnails']);
+            if (!empty($program['thumbnails'])) {
+                @unlink('uploads/programs/' . $program['thumbnails']);
             }
         }
 
         $this->programModel->update($id, $data);
 
-        return redirect()->to(base_url('programs'))->with('success', 'Program berhasil diperbarui.');
-    }
-
-    private function transformInput(array $postData): array
-    {
-        // Perbaikan: Gunakan array_values agar index JSON konsisten [0,1,2...]
-        if (!empty($postData['features'])) {
-            $postData['features'] = array_values(array_filter(explode("\n", str_replace("\r", "", $postData['features']))));
-        }
-
-        if (!empty($postData['facilities'])) {
-            $postData['facilities'] = array_values(array_filter(explode("\n", str_replace("\r", "", $postData['facilities']))));
-        }
-
-        if (!empty($postData['curriculum'])) {
-            foreach ($postData['curriculum'] as $key => $item) {
-                if (isset($item['content'])) {
-                    $postData['curriculum'][$key]['content'] = array_values(array_filter(explode("\n", str_replace("\r", "", $item['content']))));
-                }
-            }
-            $postData['curriculum'] = array_values($postData['curriculum']);
-        }
-
-        return $postData;
-    }
-
-    public function delete($id)
-    {
-        $this->programModel->delete($id);
-        return redirect()->to(base_url('programs'))->with('success', 'Program berhasil dihapus.');
+        return redirect()->to('/programs')->with('success', 'Program berhasil diperbarui.');
     }
 
     public function show($id)
     {
-        $program = $this->programModel->find($id);
-        if (!$program) return redirect()->back()->with('error', 'Program tidak ditemukan.');
+        $program = $this->programModel
+            ->withDeleted()
+            ->find($id);
+
+        if (!$program) {
+            return redirect()->back()->with('error', 'Program tidak ditemukan.');
+        }
 
         return view('Modules\Programs\Views\show', [
             'title'   => 'Detail Program: ' . $program['title'],
@@ -172,9 +147,9 @@ class ProgramsController extends BaseController
         ]);
     }
 
+
     public function downloadTemplate()
     {
-        // Urutan kolom disesuaikan dengan allowedFields (minus ID karena auto-generated)
         $header = [
             'title',
             'description',
@@ -197,86 +172,97 @@ class ProgramsController extends BaseController
             'Reguler',
             'Offline',
             '6 Bulan',
-            'Sertifikat|Modul',             // features
-            'Ruang AC|WiFi',                // facilities
-            'Bab 1: Hiragana; Katakana | Bab 2: Tata Bahasa', // curriculum
-            '3000000',                      // tuition
-            '200000',                       // registrationfee
-            'default.jpg'                   // thumbnails
+            'Sertifikat|Modul',
+            'Ruang AC|WiFi',
+            'Bab 1: Hiragana; Katakana | Bab 2: Tata Bahasa',
+            '3000000',
+            '200000',
+            'default.jpg'
         ];
 
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="template_programs.csv"');
-
-        $output = fopen('php://output', 'w');
-        fputcsv($output, $header);
-        fputcsv($output, $example);
-        fclose($output);
-        exit;
+        return $this->response
+            ->setHeader('Content-Type', 'text/csv')
+            ->setHeader('Content-Disposition', 'attachment; filename="template_programs.csv"')
+            ->setBody($this->generateCsv([$header, $example]));
     }
 
     public function bulkUpload()
     {
         $file = $this->request->getFile('file_csv');
-
         if (!$file || !$file->isValid()) {
-            return redirect()->back()->with('error', 'File tidak valid.');
+            return redirect()->back()->with('error', 'File CSV tidak valid.');
         }
 
-        if (($handle = fopen($file->getTempName(), "r")) !== FALSE) {
-            $rowNumber = 0;
-            $successCount = 0;
+        $db = Database::connect();
+        $db->transStart();
 
-            while (($data = fgetcsv($handle, 2000, ",")) !== FALSE) {
-                $rowNumber++;
-                if ($rowNumber == 1) continue; // Skip header
+        $success = 0;
+        $handle = fopen($file->getTempName(), 'r');
+        $row = 0;
 
-                // Parsing Features & Facilities
-                $features   = array_values(array_filter(array_map('trim', explode('|', $data[6] ?? ''))));
-                $facilities = array_values(array_filter(array_map('trim', explode('|', $data[7] ?? ''))));
+        while (($csv = fgetcsv($handle, 2000, ',')) !== false) {
+            $row++;
+            if ($row === 1) continue;
 
-                // Parsing Curriculum
-                $curriculum = [];
-                if (!empty($data[8])) {
-                    $chapters = explode('|', $data[8]);
-                    foreach ($chapters as $c) {
-                        if (strpos($c, ':') !== false) {
-                            [$chapName, $contents] = explode(':', $c);
-                            $curriculum[] = [
-                                'chapter' => trim($chapName),
-                                'content' => array_values(array_filter(array_map('trim', explode(';', $contents))))
-                            ];
-                        }
-                    }
-                }
+            $insertData = [
+                'title'           => $csv[0] ?? null,
+                'description'     => $csv[1] ?? null,
+                'language'        => $csv[2] ?? null,
+                'category'        => $csv[3] ?? null,
+                'classtype'       => $csv[4] ?? null,
+                'duration'        => $csv[5] ?? null,
+                'features'        => array_filter(explode('|', $csv[6] ?? '')),
+                'facilities'      => array_filter(explode('|', $csv[7] ?? '')),
+                'curriculum'      => [],
+                'tuition'         => (int)($csv[9] ?? 0),
+                'registrationfee' => (int)($csv[10] ?? 0),
+                'thumbnails'      => $csv[11] ?? 'default.jpg',
+            ];
 
-                // Susun data sesuai allowedFields
-                $insertData = [
-                    'title'           => $data[0],
-                    'description'     => $data[1],
-                    'language'        => $data[2],
-                    'category'        => $data[3],
-                    'classtype'       => $data[4],
-                    'duration'        => $data[5],
-                    'features'        => $features,
-                    'facilities'      => $facilities,
-                    'curriculum'      => $curriculum,
-                    'tuition'         => (int)($data[9] ?? 0),
-                    'registrationfee' => (int)($data[10] ?? 0),
-                    'thumbnails'      => $data[11] ?? 'default.jpg',
-                ];
+            if ($this->programModel->insert($insertData)) {
+                $success++;
+            }
+        }
 
-                // PENTING: Gunakan insert() per baris agar callback generateUuid dan encodeJsonFields terpicu
-                // insertBatch() terkadang melewati callback tertentu tergantung versi CI4
-                if ($this->programModel->insert($insertData)) {
-                    $successCount++;
+        fclose($handle);
+        $db->transComplete();
+
+        return redirect()->to('/programs')
+            ->with('success', "$success data berhasil diimpor.");
+    }
+
+    private function transformInput(array $post): array
+    {
+        foreach (['features', 'facilities'] as $field) {
+            if (!empty($post[$field])) {
+                $post[$field] = array_values(array_filter(
+                    explode("\n", str_replace("\r", '', $post[$field]))
+                ));
+            }
+        }
+
+        if (!empty($post['curriculum'])) {
+            foreach ($post['curriculum'] as &$c) {
+                if (isset($c['content'])) {
+                    $c['content'] = array_values(array_filter(
+                        explode("\n", str_replace("\r", '', $c['content']))
+                    ));
                 }
             }
-            fclose($handle);
-
-            return redirect()->to('/programs')->with('success', "$successCount data berhasil diimpor.");
         }
 
-        return redirect()->back()->with('error', 'Gagal membuka file CSV.');
+        return $post;
+    }
+
+    private function generateCsv(array $rows): string
+    {
+        $fp = fopen('php://temp', 'r+');
+        foreach ($rows as $row) {
+            fputcsv($fp, $row);
+        }
+        rewind($fp);
+        $csv = stream_get_contents($fp);
+        fclose($fp);
+        return $csv;
     }
 }

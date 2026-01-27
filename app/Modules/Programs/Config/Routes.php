@@ -1,27 +1,21 @@
 <?php
 
-use CodeIgniter\Config\Services;
+// JANGAN panggil Services::routes() di sini
 
-$routes = Services::routes();
+$routes->group('programs', ['namespace' => 'Modules\Programs\Controllers', 'filter' => 'group:admin'], function ($routes) {
 
-
-// app/Modules/Programs/Config/Routes.php
-
-$routes->group('programs', ['namespace' => 'Modules\Programs\Controllers'], function ($routes) {
-
-    // 1. Rute Statis (Taruh di atas)
     $routes->get('/', 'ProgramsController::index');
     $routes->get('create', 'ProgramsController::create');
-    $routes->get('downloadTemplate', 'ProgramsController::downloadTemplate'); // <--- TAMBAHKAN INI
-    $routes->post('bulkUpload', 'ProgramsController::bulkUpload'); // Pastikan ini juga ada
+    $routes->get('downloadTemplate', 'ProgramsController::downloadTemplate');
+
     $routes->post('store', 'ProgramsController::store');
+    $routes->post('bulkUpload', 'ProgramsController::bulkUpload');
 
+    $routes->get('show/(:segment)', 'ProgramsController::show/$1');
+    $routes->get('edit/(:segment)', 'ProgramsController::edit/$1');
+    $routes->post('update/(:segment)', 'ProgramsController::update/$1');
 
-    // 2. Rute dengan Parameter/Wildcard (Taruh di bawah)
-    $routes->get('show/(:any)', 'ProgramsController::show/$1');
-    $routes->get('edit/(:any)', 'ProgramsController::edit/$1');
-    $routes->post('update/(:any)', 'ProgramsController::update/$1');
-    $routes->get('delete/(:any)', 'ProgramsController::delete/$1');
-    $routes->get('restore/(:any)', 'Programs::restore/$1');
-    $routes->get('purge/(:any)', 'Programs::purge/$1');
+    $routes->post('delete/(:segment)', 'ProgramsController::delete/$1');
+    $routes->post('restore/(:segment)', 'ProgramsController::restore/$1');
+    $routes->post('purge/(:segment)', 'ProgramsController::purge/$1');
 });
