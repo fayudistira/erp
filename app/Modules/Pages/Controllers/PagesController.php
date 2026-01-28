@@ -37,7 +37,7 @@ class PagesController extends BaseController
         // Ambil data FAQ yang dipublish
         // Kita urutkan berdasarkan 'id' terbaru atau 'created_at' agar FAQ terbaru muncul di atas
         $faqs = $this->faqModel->where('status', 'publish')
-            ->orderBy('id', 'DESC')
+            ->orderBy('id', 'ASC')
             ->findAll();
 
         $data = [

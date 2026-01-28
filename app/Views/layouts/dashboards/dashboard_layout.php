@@ -7,9 +7,9 @@
     <title><?= isset($title) ? $title . ' | ' : '' ?>SOSCT Admin</title>
 
     <!-- Meta Tags -->
-    <meta name="description" content="<?= isset($meta_description) ? $meta_description : 'School Administration Dashboard' ?>">
+    <meta name="description" content="<?= isset($meta_description) ? $meta_description : 'SOS Course & Training Dashboard' ?>">
     <meta name="author" content="Crimson Edu">
-    <meta name="keywords" content="<?= isset($meta_keywords) ? $meta_keywords : 'education, dashboard, school, admin' ?>">
+    <meta name="keywords" content="<?= isset($meta_keywords) ? $meta_keywords : 'SOS Course, education, dashboard, school, admin' ?>">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -74,8 +74,8 @@
                     <?php endif; ?>
 
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <div>
-                            <h1 class="text-2xl font-bold gradient-text dark:gradient-text-dark">
+                        <!-- <div>
+                            <h1 class="text-2md font-bold gradient-text dark:gradient-text-dark">
                                 <?= isset($page_title) ? $page_title : 'Dashboard' ?>
                             </h1>
                             <?php if (isset($page_subtitle)): ?>
@@ -83,7 +83,7 @@
                                     <?= $page_subtitle ?>
                                 </p>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
 
                         <!-- Page-specific actions/buttons -->
                         <?= $this->renderSection('page_actions') ?>

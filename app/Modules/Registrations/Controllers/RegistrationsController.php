@@ -259,7 +259,23 @@ class RegistrationsController extends BaseController
     }
 
 
+    public function adminIndex()
+    {
+        $registrations = $this->registrationsModel
+            ->select('registrations.*, programs.title as program_name, profiles.nama_lengkap as student_name')
+            ->join('programs', 'programs.id = registrations.program_id', 'left')
+            ->join('profiles', 'profiles.user_id = registrations.user_id', 'left')
+            ->where('registrations.deleted_at', null)
+            ->orderBy('registrations.created_at', 'DESC')
+            ->findAll();
 
+        $data = [
+            'title'         => 'Student Registrations',
+            'registrations' => $registrations
+        ];
+
+        return view('Modules\Registrations\Views\index', $data);
+    }
 
 
     public function getAuthForm($type)

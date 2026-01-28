@@ -1,3 +1,31 @@
+html,
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Update di dashboard.css */
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -50;
+    /* Pastikan jauh di belakang */
+    background: linear-gradient(-45deg, #f8fafc, #e2e8f0, #f1f5f9, #f8fafc);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    transition: all 0.5s ease;
+    /* Tambahkan transisi */
+}
+
+/* Selector ini krusial: saat <html> punya class .dark, background berubah */
+.dark .animated-bg {
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #0f172a) !important;
+    background-size: 400% 400%;
+}
+
+/* Hapus .animated-bg-dark jika tidak dipakai lagi untuk efisiensi */
 /* Glassmorphism base styles */
 .glass {
     background: rgba(255, 255, 255, 0.15);

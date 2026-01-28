@@ -87,48 +87,45 @@
     }
     
     // Theme management
-    function initTheme() {
-        const themeToggle = document.querySelector('[onclick="toggleTheme()"]');
-        const themeIcon = document.getElementById("theme-icon");
-        
-        // Load saved theme
-        const savedTheme = localStorage.getItem('dashboard-theme');
-        
-        if (savedTheme === 'dark') {
+    // Theme management
+function initTheme() {
+    const themeIcon = document.getElementById("theme-icon");
+    
+    // 1. Fungsi untuk Apply Theme
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
             document.documentElement.classList.add('dark');
             if (themeIcon) themeIcon.classList.replace("fa-moon", "fa-sun");
-        } else if (savedTheme === 'light') {
+        } else {
             document.documentElement.classList.remove('dark');
             if (themeIcon) themeIcon.classList.replace("fa-sun", "fa-moon");
-        } else {
-            // Default to system preference
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-                if (themeIcon) themeIcon.classList.replace("fa-moon", "fa-sun");
-                localStorage.setItem('dashboard-theme', 'dark');
-            }
         }
-        
-        // Add click event to theme toggle button
-        if (themeToggle) {
-            themeToggle.addEventListener('click', toggleTheme);
-        }
-        
-        // Expose toggleTheme globally
-        window.toggleTheme = function() {
-            document.documentElement.classList.toggle("dark");
-            const icon = document.getElementById("theme-icon");
-            if (document.documentElement.classList.contains("dark")) {
-                icon.classList.replace("fa-moon", "fa-sun");
-                localStorage.setItem('dashboard-theme', 'dark');
-                showToast("Switched to Dark Mode");
-            } else {
-                icon.classList.replace("fa-sun", "fa-moon");
-                localStorage.setItem('dashboard-theme', 'light');
-                showToast("Switched to Light Mode");
-            }
-        };
+    };
+
+    // 2. Load Initial Theme
+    const savedTheme = localStorage.getItem('dashboard-theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        applyTheme(systemDark ? 'dark' : 'light');
     }
+
+    // 3. Global Toggle Function (Dipanggil oleh onclick="toggleTheme()")
+    window.toggleTheme = function() {
+        const isDark = document.documentElement.classList.contains("dark");
+        const newTheme = isDark ? 'light' : 'dark';
+        
+        applyTheme(newTheme);
+        localStorage.setItem('dashboard-theme', newTheme);
+        
+        // Memanggil toast yang sudah ada di JS kamu
+        if (typeof showToast === 'function') {
+            showToast(`Switched to ${newTheme.toUpperCase()} Mode`, 'info');
+        }
+    };
+}
     
     // Global search functionality
     function initSearch() {

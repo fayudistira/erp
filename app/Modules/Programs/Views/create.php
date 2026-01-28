@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/dasboards/dashboard_layout') ?>
+<?= $this->extend('layouts/dashboards/dashboard_layout') ?>
 
 <?= $this->section('content') ?>
 <div class="container-fluid">

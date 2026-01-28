@@ -6,6 +6,11 @@ $routes = Services::routes();
 
 $routes->group('', ['namespace' => 'Modules\Registrations\Controllers'], function ($routes) {
 
+    // --- Admin/Management Routes ---
+    // This points to the table view we just created
+    $routes->get('member-list', 'RegistrationsController::adminIndex');
+
+    // --- Public Registration Routes ---
     $routes->get('daftar/(:segment)', 'RegistrationsController::index/$1');
 
     $routes->post(
