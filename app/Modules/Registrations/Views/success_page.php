@@ -31,13 +31,16 @@
     }
 
     .bank-card:hover {
-        border-color: var(--primary-yellow);
+        border-color: #ffc107;
+        /* Sesuaikan dengan primary-yellow */
+        background-color: #fff !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
 
     .step-number {
         width: 30px;
         height: 30px;
-        background: var(--primary-yellow);
+        background: #ffc107;
         color: #000;
         border-radius: 50%;
         display: inline-flex;
@@ -45,6 +48,12 @@
         justify-content: center;
         font-weight: bold;
         margin-right: 10px;
+    }
+
+    .btn-copy {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        text-decoration: none;
     }
 </style>
 <?= $this->endSection() ?>
@@ -75,8 +84,8 @@
                                 <span>Nomor Invoice:</span>
                                 <div>
                                     <span id="invoiceNumber" class="fw-bold"><?= esc($invoice['invoice_number']) ?></span>
-                                    <button onclick="copyInvoice()" class="btn btn-sm btn-outline-secondary ms-2">
-                                        Copy
+                                    <button onclick="copyToClipboard('invoiceNumber', 'Nomor Invoice')" class="btn btn-sm btn-outline-secondary ms-2 btn-copy">
+                                        <i class="far fa-copy"></i> Copy
                                     </button>
                                 </div>
                             </div>
@@ -86,7 +95,7 @@
                                 <span class="fw-bold text-end"><?= esc($program['title']) ?></span>
                             </div>
                             <hr>
-                            <?php if (isset($invoice['invoice_items']) && is_array($invoice['invoice_items'])): ?>
+                            <?php if (!empty($invoice['invoice_items'])): ?>
                                 <?php foreach ($invoice['invoice_items'] as $item): ?>
                                     <div class="d-flex justify-content-between small mb-1">
                                         <span><?= esc($item['desc'] ?? '') ?></span>
@@ -97,70 +106,61 @@
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="h5 mb-0">Total Bayar:</span>
-                                <span class="h4 mb-0 fw-bold text-primary-yellow">Rp <?= number_format($invoice['total_amount'] ?? 0, 0, ',', '.') ?></span>
+                                <span class="h4 mb-0 fw-bold text-warning">Rp <?= number_format($invoice['total_amount'] ?? 0, 0, ',', '.') ?></span>
                             </div>
                         </div>
                         <div class="text-end mt-3">
-                            <a href="<?= base_url('daftar/invoice-pdf/' . $registration['id']) ?>"
-                                target="_blank"
-                                class="btn btn-outline-dark btn-sm">
-                                Unduh PDF
+                            <a href="<?= base_url('daftar/invoice-pdf/' . $registration['id']) ?>" target="_blank" class="btn btn-outline-dark btn-sm">
+                                <i class="fas fa-download me-1"></i> Unduh PDF
                             </a>
                         </div>
-
                     </div>
 
                     <div class="text-start">
                         <h5 class="fw-bold mb-4"><i class="fas fa-university me-2"></i>Instruksi Pembayaran</h5>
 
                         <?php if (!empty($bankAccounts)): ?>
-                            <?php foreach ($bankAccounts as $bank): ?>
+                            <?php foreach ($bankAccounts as $index => $bank): ?>
                                 <div class="bank-card mb-4 bg-light">
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md-2">
                                             <?php
-                                            $bankLogo = '';
-                                            switch (strtoupper($bank['bank'])) {
-                                                case 'BCA':
-                                                    $bankLogo = 'https://upload.wikimedia.org/wikipedia/id/thumb/e/e0/BCA_logo.svg/1280px-BCA_logo.svg.png';
-                                                    break;
-                                                case 'MANDIRI':
-                                                    $bankLogo = 'https://upload.wikimedia.org/wikipedia/id/thumb/a/ad/Bank_Mandiri_logo_2016.svg/1280px-Bank_Mandiri_logo_2016.svg.png';
-                                                    break;
-                                                case 'BNI':
-                                                    $bankLogo = 'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/1280px-BNI_logo.svg.png';
-                                                    break;
-                                                case 'BRI':
-                                                    $bankLogo = 'https://upload.wikimedia.org/wikipedia/id/thumb/5/5e/Bank_BRI_logo_2022.svg/1280px-Bank_BRI_logo_2022.svg.png';
-                                                    break;
-                                            }
+                                            // Logika mapping logo bank lokal
+                                            $bankKey = strtoupper($bank['bank']);
+                                            $logoMap = [
+                                                'BNI'     => 'bank.png', // Sesuai permintaan anda ke public/uploads/images/bank.png
+                                                'BCA'     => 'bca.png',
+                                                'MANDIRI' => 'mandiri.png',
+                                                'BRI'     => 'bri.png'
+                                            ];
+                                            $logoName = $logoMap[$bankKey] ?? 'default_bank.png';
                                             ?>
-                                            <?php if ($bankLogo): ?>
-                                                <img src="<?= esc($bankLogo) ?>" class="img-fluid" alt="<?= esc($bank['bank']) ?>">
-                                            <?php else: ?>
-                                                <div class="bg-dark text-white p-2 rounded text-center">
-                                                    <?= esc(substr($bank['bank'], 0, 3)) ?>
-                                                </div>
-                                            <?php endif; ?>
+                                            <img src="<?= base_url('uploads/images/' . $logoName) ?>"
+                                                class="img-fluid"
+                                                alt="<?= esc($bank['bank']) ?>"
+                                                onerror="this.src='https://via.placeholder.com/100x50?text=BANK'">
                                         </div>
                                         <div class="col-9 col-md-10">
                                             <small class="text-muted d-block"><?= esc($bank['bank']) ?></small>
-                                            <h4 class="fw-bold mb-0"><?= esc($bank['number'] ?? '') ?></h4>
+                                            <div class="d-flex align-items-center">
+                                                <h4 class="fw-bold mb-0" id="bankAcc_<?= $index ?>"><?= esc($bank['number'] ?? '') ?></h4>
+                                                <button onclick="copyToClipboard('bankAcc_<?= $index ?>', 'Nomor Rekening')" class="btn btn-link text-primary p-0 ms-3 btn-copy">
+                                                    <i class="far fa-copy"></i> Salin
+                                                </button>
+                                            </div>
                                             <small class="fw-bold">A/N <?= esc($bank['name'] ?? '') ?></small>
                                         </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <div class="alert alert-warning">
-                                Informasi rekening bank belum tersedia. Silakan hubungi admin.
-                            </div>
+                            <div class="alert alert-warning">Informasi rekening bank belum tersedia.</div>
                         <?php endif; ?>
 
                         <div class="payment-steps small text-muted">
-                            <div class="mb-2"><span class="step-number">1</span> Transfer sesuai nominal hingga 3 digit terakhir (jika ada).</div>
-                            <div class="mb-2"><span class="step-number">2</span> Sertakan Nomor Invoice <strong><?= esc($invoice['invoice_number']) ?></strong> di berita transfer.</div>
-                            <div class="mb-2"><span class="step-number">3</span> Foto bukti transfer Anda.</div>
+                            <div class="mb-2"><span class="step-number">1</span> Transfer sesuai nominal hingga 3 digit terakhir.</div>
+                            <div class="mb-2"><span class="step-number">2</span> Sertakan No. Invoice <strong id="invText"><?= esc($invoice['invoice_number']) ?></strong> di berita transfer.</div>
+                            <div class="mb-2"><span class="step-number">3</span> Simpan atau foto bukti transfer Anda.</div>
                         </div>
                     </div>
 
@@ -172,12 +172,8 @@
                                 </a>
                             </div>
                             <div class="col-md-6">
-                                <?php
-                                $whatsappMessage = urlencode("Konfirmasi Invoice " . $invoice['invoice_number']);
-                                ?>
-                                <a href="https://wa.me/<?= esc($whatsappAdmin) ?>?text=<?= $whatsappMessage ?>"
-                                    class="btn btn-success w-100 btn-lg rounded-pill"
-                                    target="_blank">
+                                <?php $whatsappMessage = urlencode("Halo Admin, saya ingin konfirmasi pembayaran Invoice: " . $invoice['invoice_number']); ?>
+                                <a href="https://wa.me/<?= esc($whatsappAdmin) ?>?text=<?= $whatsappMessage ?>" class="btn btn-success w-100 btn-lg rounded-pill" target="_blank">
                                     <i class="fab fa-whatsapp me-2"></i>Konfirmasi WA
                                 </a>
                             </div>
@@ -185,7 +181,6 @@
                     </div>
                 </div>
             </div>
-
             <p class="text-center text-muted mt-4 small">
                 Butuh bantuan? Hubungi kami di <a href="mailto:support@kursus.com">support@kursus.com</a>
             </p>
@@ -193,13 +188,42 @@
     </div>
 </div>
 <?= $this->endSection() ?>
+
 <?= $this->section('script') ?>
 <script>
-    function copyInvoice() {
-        const text = document.getElementById('invoiceNumber').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Nomor invoice disalin');
-        });
+    /**
+     * Fungsi universal untuk menyalin teks ke clipboard
+     * @param {string} elementId - ID dari elemen yang teksnya akan diambil
+     * @param {string} label - Nama label untuk notifikasi (misal: 'Nomor Rekening')
+     */
+    function copyToClipboard(elementId, label) {
+        const text = document.getElementById(elementId).innerText;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            // Navigator clipboard API
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(label + ' berhasil disalin!');
+            });
+        } else {
+            // Fallback untuk browser lama atau koneksi non-HTTPS
+            let textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(label + ' berhasil disalin!');
+            } catch (err) {
+                console.error('Gagal menyalin', err);
+            }
+            document.body.removeChild(textArea);
+        }
+    }
+
+    // Fungsi sederhana untuk menggantikan alert agar tidak mengganggu user
+    function showToast(message) {
+        // Anda bisa mengganti ini dengan library SweetAlert2 atau Toastr
+        alert(message);
     }
 </script>
 <?= $this->endSection() ?>

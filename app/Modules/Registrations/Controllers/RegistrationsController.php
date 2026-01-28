@@ -18,11 +18,12 @@ class RegistrationsController extends BaseController
     // Konfigurasi bank account dan whatsapp
     protected $bankAccounts = [
         [
-            'bank' => 'BCA',
-            'number' => '1234-567-890',
-            'name' => 'LEMBAGA KURSUS MANDIRI'
+            'bank' => 'BNI',
+            'number' => '2205502277',
+            'name' => 'SOS Course and Training'
         ]
     ];
+    protected $bankLogo = 'uploads/images/Bank_Negara_Indonesia_logo_(2004).svg';
 
     protected $whatsappAdmin = '6285810310950';
 
