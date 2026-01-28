@@ -45,6 +45,7 @@ class Autoload extends AutoloadConfig
         'Modules\Registrations' => APPPATH . 'Modules/Registrations',
         'Modules\Students' => APPPATH . 'Modules/Students',
         'Modules\Payments' => APPPATH . 'Modules/Payments',
+        'Modules\Dashboard' => APPPATH . 'Modules/Dashboard',
     ];
 
     /**

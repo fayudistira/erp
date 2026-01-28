@@ -602,42 +602,32 @@
             </div>
             <div class="col-lg-8">
                 <div class="accordion" id="faqHome">
-                    <div class="accordion-item mb-3">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                Apakah kursus ini bergaransi sampai bisa?
-                            </button>
-                        </h2>
-                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqHome">
-                            <div class="accordion-body text-muted small">
-                                Ya! Kami memberikan jaminan pengulangan kelas gratis bagi peserta yang belum memenuhi standar kelulusan di akhir program, selama absensi memenuhi syarat.
+                    <?php if (!empty($faqs)): ?>
+                        <?php foreach ($faqs as $key => $faq): ?>
+                            <div class="accordion-item mb-3">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button <?= $key === 0 ? '' : 'collapsed' ?> fw-bold py-3"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#faq-<?= $faq['id'] ?>"
+                                        aria-expanded="<?= $key === 0 ? 'true' : 'false' ?>">
+                                        <?= esc($faq['question']) ?>
+                                    </button>
+                                </h2>
+                                <div id="faq-<?= $faq['id'] ?>"
+                                    class="accordion-collapse collapse <?= $key === 0 ? 'show' : '' ?>"
+                                    data-bs-parent="#faqHome">
+                                    <div class="accordion-body text-muted small">
+                                        <?= nl2br(esc((string) $faq['answer'])) ?>
+                                    </div>
+                                </div>
                             </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="text-center py-4">
+                            <p class="text-muted italic">Belum ada FAQ tersedia.</p>
                         </div>
-                    </div>
-                    <div class="accordion-item mb-3">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                Kapan kelas baru dimulai?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqHome">
-                            <div class="accordion-body text-muted small">
-                                Pendaftaran dibuka setiap bulan. Kelas baru biasanya dimulai di minggu pertama setiap bulannya untuk semua kategori bahasa.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item mb-3">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                Bolehkah pindah jadwal jika berhalangan?
-                            </button>
-                        </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqHome">
-                            <div class="accordion-body text-muted small">
-                                Boleh, dengan pemberitahuan minimal 24 jam sebelumnya. Anda bisa pindah ke kelas lain dengan kuota tersedia.
-                            </div>
-                        </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

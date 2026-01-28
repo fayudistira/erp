@@ -6,13 +6,13 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = 'kursusbahasa.sos@gmail.com'; // Isi dengan email kamu
-    public string $fromName   = 'Nama Kursus Kamu';           // Nama pengirim
-    public string $protocol   = 'smtp';                       // UBAH ke smtp
+    public string $fromEmail  = 'kursusbahasa.sos@gmail.com';
+    public string $fromName   = 'Admin SOS Course';
+    public string $protocol   = 'smtp';
 
-    public string $SMTPHost   = 'smtp.googlemail.com';        // Host Gmail
+    public string $SMTPHost   = 'smtp.googlemail.com';
     public string $SMTPUser   = 'kursusbahasa.sos@gmail.com';
-    public string $SMTPPass   = 'fdql htbx lcry ukxy';        // Gunakan App Password (bukan password login)
+    public string $SMTPPass   = 'fdql htbx lcry ukxy';
     public int $SMTPPort      = 587;                          // Port 465 untuk SSL atau 587 untuk TLS
     public string $SMTPCrypto = 'tls';                        // Gunakan 'ssl' jika port 465
 

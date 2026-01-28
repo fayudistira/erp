@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOS Course & Training - Mandarin Excellence</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://static.photos/red/32x32/99"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#fef2f2",
+                100: "#fee2e2",
+                200: "#fecaca",
+                300: "#fca5a5",
+                400: "#f87171",
+                500: "#ef4444",
+                600: "#dc2626",
+                700: "#b91c1c",
+                800: "#991b1b",
+                900: "#7f1d1d",
+              },
+              secondary: {
+                50: "#f8fafc",
+                100: "#f1f5f9",
+                200: "#e2e8f0",
+                300: "#cbd5e1",
+                400: "#94a3b8",
+                500: "#64748b",
+                600: "#475569",
+                700: "#334155",
+                800: "#1e293b",
+                900: "#0f172a",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+              chinese: ["Noto Sans SC", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- Navigation -->
+    <script src="components/navbar.js"></script>
+    <custom-navbar></custom-navbar>
+
+    <!-- Hero Section -->
+    <section
+      class="relative overflow-hidden bg-gradient-to-br from-primary-50 to-secondary-50 py-16 md:py-24"
+    >
+      <div
+        class="absolute inset-0 bg-grid-slate-100/20 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"
+      ></div>
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              <span class="block text-primary-600">Master Mandarin</span>
+              <span class="block text-secondary-700">With Excellence</span>
+            </h1>
+            <p class="text-lg text-secondary-600 mb-8 max-w-xl">
+              SOS Course & Training offers premier Mandarin education with
+              immersive programs, expert instructors, and proven success in HSK
+              certification and career placement.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#programs"
+                class="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl inline-flex items-center justify-center"
+              >
+                <i data-feather="book-open" class="mr-2"></i> View Programs
+              </a>
+              <a
+                href="#contact"
+                class="bg-white hover:bg-gray-50 text-primary-600 font-semibold py-3 px-8 rounded-lg border border-primary-200 transition duration-300 transform hover:-translate-y-1 shadow hover:shadow-lg inline-flex items-center justify-center"
+              >
+                <i data-feather="message-circle" class="mr-2"></i> Free
+                Consultation
+              </a>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src="https://static.photos/education/640x360/42"
+                alt="Mandarin Learning"
+                class="w-full h-64 md:h-80 object-cover"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-primary-900/60 to-transparent"
+              ></div>
+              <div class="absolute bottom-6 left-6 text-white">
+                <p class="text-xl font-chinese font-medium">学汉语，开世界</p>
+                <p class="text-sm opacity-90">Learn Chinese, Open Your World</p>
+              </div>
+            </div>
+            <div
+              class="absolute -bottom-4 -right-4 w-32 h-32 bg-secondary-100 rounded-2xl -z-10"
+            ></div>
+            <div
+              class="absolute -top-4 -left-4 w-24 h-24 bg-primary-100 rounded-2xl -z-10"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Learn Mandarin -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-800">
+            Why Learn Mandarin?
+          </h2>
+          <p class="text-secondary-600 max-w-2xl mx-auto">
+            In today's globalized world, mastering Mandarin opens doors to
+            unprecedented opportunities
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            class="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4"
+            >
+              <i data-feather="globe" class="text-primary-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+              Global Relevance
+            </h3>
+            <p class="text-secondary-600">
+              Chinese is the world's most spoken language and a key player in
+              international business and diplomacy.
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-secondary-50 to-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center mb-4"
+            >
+              <i data-feather="briefcase" class="text-secondary-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+              Career Advancement
+            </h3>
+            <p class="text-secondary-600">
+              Unlock higher-paying positions and international career
+              opportunities with Mandarin proficiency.
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4"
+            >
+              <i data-feather="award" class="text-primary-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+              Cultural Insight
+            </h3>
+            <p class="text-secondary-600">
+              Gain deep understanding of China's rich 5,000-year culture and
+              heritage through language mastery.
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-secondary-50 to-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center mb-4"
+            >
+              <i data-feather="trending-up" class="text-secondary-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+              Future Proofing
+            </h3>
+            <p class="text-secondary-600">
+              Position yourself for the future as China continues to shape
+              global economics and innovation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="py-16 bg-gradient-to-b from-white to-gray-50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-800">
+            Our Programs
+          </h2>
+          <p class="text-secondary-600 max-w-2xl mx-auto">
+            Comprehensive Mandarin learning programs designed for all levels and
+            goals
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://static.photos/education/640x360/101"
+                alt="Regular Offline Class"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3 text-secondary-800">
+                Regular Offline Class
+              </h3>
+              <p class="text-secondary-600 mb-4">
+                Structured classroom learning with experienced native teachers
+                in our immersive campus environment.
+              </p>
+              <a
+                href="programs.html#regular"
+                class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center"
+              >
+                Learn More
+                <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://static.photos/education/640x360/102"
+                alt="HSK Preparation"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3 text-secondary-800">
+                HSK & HSKK Preparation
+              </h3>
+              <p class="text-secondary-600 mb-4">
+                Specialized courses for HSK and HSKK certification with 98%
+                success rate and guaranteed results.
+              </p>
+              <a
+                href="programs.html#hsk"
+                class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center"
+              >
+                Learn More
+                <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://static.photos/education/640x360/103"
+                alt="Online Learning"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3 text-secondary-800">
+                Online Mandarin
+              </h3>
+              <p class="text-secondary-600 mb-4">
+                Flexible online courses with live instruction, interactive
+                materials, and global classroom access.
+              </p>
+              <a
+                href="programs.html#online"
+                class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center"
+              >
+                Learn More
+                <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-secondary-800">
+              Why Choose SOS Course & Training?
+            </h2>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i data-feather="users" class="text-primary-600"></i>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold mb-2 text-secondary-800">
+                    Specialized for Beginners
+                  </h3>
+                  <p class="text-secondary-600">
+                    Our curriculum is specifically designed for Mandarin
+                    beginners with accelerated learning pathways.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-secondary-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i data-feather="home" class="text-secondary-600"></i>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold mb-2 text-secondary-800">
+                    Immersive Mandarin Camp
+                  </h3>
+                  <p class="text-secondary-600">
+                    First Mandarin-only immersion camp in Indonesia with 24/7
+                    Chinese language environment.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i data-feather="repeat" class="text-primary-600"></i>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold mb-2 text-secondary-800">
+                    Free Class Repeat
+                  </h3>
+                  <p class="text-secondary-600">
+                    Unlimited free class repeats until you master the material
+                    and pass the examinations.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <img
+              src="https://static.photos/education/640x360/104"
+              alt="Classroom Learning"
+              class="rounded-2xl shadow-2xl w-full"
+            />
+            <div
+              class="absolute -bottom-6 -right-6 bg-primary-600 text-white p-6 rounded-2xl shadow-xl max-w-xs"
+            >
+              <p class="text-2xl font-bold mb-2">98%</p>
+              <p class="text-sm">HSK Certification Success Rate</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-gradient-to-br from-primary-50 to-secondary-50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-800">
+            Student Success Stories
+          </h2>
+          <p class="text-secondary-600 max-w-2xl mx-auto">
+            Hear from our alumni who have transformed their careers through
+            Mandarin mastery
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold"
+              >
+                ES
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold">Erlina Susanti</h4>
+                <p class="text-sm text-secondary-500">December 2025</p>
+              </div>
+            </div>
+            <p class="text-secondary-600 mb-4">
+              "The teachers are exceptionally patient and make complex Mandarin
+              concepts easy to understand. Highly recommended for beginners!"
+            </p>
+            <div class="flex text-yellow-400">
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 font-bold"
+              >
+                ML
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold">Mohammad Lutfi</h4>
+                <p class="text-sm text-secondary-500">December 2025</p>
+              </div>
+            </div>
+            <p class="text-secondary-600 mb-4">
+              "Perfect for beginners! The structured approach helped me progress
+              quickly. Ready to tackle HSK 1 next!"
+            </p>
+            <div class="flex text-yellow-400">
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold"
+              >
+                YG
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold">Yasmin Ghina</h4>
+                <p class="text-sm text-secondary-500">November 2025</p>
+              </div>
+            </div>
+            <p class="text-secondary-600 mb-4">
+              "The online classes are engaging and convenient. Teachers are
+              patient and make learning from home effective and fun."
+            </p>
+            <div class="flex text-yellow-400">
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+              <i data-feather="star" class="fill-current"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section
+      id="contact"
+      class="py-16 bg-gradient-to-r from-primary-600 to-primary-700 text-white"
+    >
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+              Start Your Mandarin Journey Today!
+            </h2>
+            <p class="text-primary-100 mb-8 text-lg">
+              Classes start every 10th and 25th of the month. Limited spots
+              available for immersive learning experience.
+            </p>
+            <div class="flex items-center mb-6">
+              <div
+                class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mr-4"
+              >
+                <i data-feather="calendar"></i>
+              </div>
+              <div>
+                <p class="font-semibold">Monthly Start Dates</p>
+                <p class="text-primary-100">10th & 25th of each month</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div
+                class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mr-4"
+              >
+                <i data-feather="phone"></i>
+              </div>
+              <div>
+                <p class="font-semibold">Contact Admissions</p>
+                <p class="text-primary-100">+62 822-1185-9393</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+            <h3 class="text-2xl font-bold mb-6">Get Free Consultation</h3>
+            <p class="mb-6 text-primary-100">
+              Speak with our education consultants about the best program for
+              your goals.
+            </p>
+            <a
+              href="https://api.whatsapp.com/send?phone=6282211859393&text=Hallo%20Admin%20Saya%20Ingin%20Konsultasi%20Program%20Mandarin"
+              target="_blank"
+              class="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg inline-flex items-center justify-center w-full transition duration-300 transform hover:-translate-y-1 shadow-lg"
+            >
+              <i data-feather="message-circle" class="mr-3"></i> Chat on
+              WhatsApp
+            </a>
+            <p class="text-center text-primary-100 text-sm mt-4">
+              Response within 15 minutes
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-800">
+            Our Corporate Partners
+          </h2>
+          <p class="text-secondary-600 max-w-2xl mx-auto">
+            Working with leading companies for career placement and internships
+          </p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <div
+            class="bg-gray-50 p-4 rounded-xl flex items-center justify-center h-24"
+          >
+            <img
+              src="https://static.photos/industry/200x200/1"
+              alt="Partner"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-gray-50 p-4 rounded-xl flex items-center justify-center h-24"
+          >
+            <img
+              src="https://static.photos/industry/200x200/2"
+              alt="Partner"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-gray-50 p-4 rounded-xl flex items-center justify-center h-24"
+          >
+            <img
+              src="https://static.photos/industry/200x200/3"
+              alt="Partner"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-gray-50 p-4 rounded-xl flex items-center justify-center h-24"
+          >
+            <img
+              src="https://static.photos/industry/200x200/4"
+              alt="Partner"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-gray-50 p-4 rounded-xl flex items-center justify-center h-24"
+          >
+            <img
+              src="https://static.photos/industry/200x200/5"
+              alt="Partner"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-gray-50 p-4 rounded-xl flex items-center justify-center h-24"
+          >
+            <img
+              src="https://static.photos/industry/200x200/6"
+              alt="Partner"
+              class="max-h-12"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <script src="components/footer.js"></script>
+    <custom-footer></custom-footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+      feather.replace();
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+    </script>
+    <script src="https://huggingface.co/deepsite/deepsite-badge.js"></script>
+  </body>
+</html>
