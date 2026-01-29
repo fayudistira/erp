@@ -7,6 +7,7 @@ use Modules\Registrations\Models\RegistrationsModel;
 use Modules\Programs\Models\ProgramsModel;
 use Modules\Students\Models\ProfileModel;
 use Modules\Payments\Models\InvoicesModel;
+use Modules\Payments\Models\BankModel;
 
 class RegistrationsController extends BaseController
 {
@@ -14,6 +15,7 @@ class RegistrationsController extends BaseController
     protected $programsModel;
     protected $profileModel;
     protected $invoicesModel;
+    protected $bankModel;
 
     // Konfigurasi bank account dan whatsapp
     protected $bankAccounts = [
@@ -33,6 +35,7 @@ class RegistrationsController extends BaseController
         $this->programsModel      = new ProgramsModel();
         $this->profileModel       = new ProfileModel();
         $this->invoicesModel      = new InvoicesModel();
+        $this->bankModel      = new BankModel();
     }
 
     public function index($program_id)
@@ -198,17 +201,23 @@ class RegistrationsController extends BaseController
 
     public function success($registrationId)
     {
-        $registration = $this->registrationsModel->find($registrationId);
+        // Gunakan query builder dengan join agar data profil (nama_lengkap) ikut terbawa
+        $registration = $this->registrationsModel
+            ->select('registrations.*, profiles.nama_lengkap')
+            ->join('profiles', 'profiles.user_id = registrations.user_id', 'left')
+            ->find($registrationId);
 
         if (!$registration) {
             return redirect()->to('/')->with('error', 'Data pendaftaran tidak ditemukan.');
         }
 
+        $bankModel = new \Modules\Payments\Models\BankModel();
+
         $data = [
             'registration'  => $registration,
             'program'       => $this->programsModel->find($registration['program_id']),
             'invoice'       => $this->invoicesModel->where('registration_id', $registrationId)->first(),
-            'bankAccounts'  => $this->bankAccounts,
+            'bankAccounts'  => $bankModel->where('is_active', 1)->findAll(),
             'whatsappAdmin' => $this->whatsappAdmin
         ];
 

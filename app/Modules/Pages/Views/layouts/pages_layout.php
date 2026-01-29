@@ -1,349 +1,132 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Kursus Bahasa Asing - Kampung Inggris Pare') ?></title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Styles dari kursusbahasa.org -->
-    <style>
-        :root {
-            --primary-yellow: #ffd700;
-            --dark-yellow: #ffc107;
-            --black: #212529;
-            --light-gray: #f8f9fa;
-            --dark-gray: #6c757d;
-        }
-
-        /* Top Navigation - STICKY */
-        .top-navigation {
-            position: sticky;
-            top: 0;
-            z-index: 1030;
-            background-color: var(--black);
-            color: white;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            border-bottom: 2px solid var(--primary-yellow);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .nav-brand .highlight {
-            color: var(--primary-yellow);
-        }
-
-        /* Social Media Styles untuk Navigation */
-        .nav-social {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .social-link {
-            color: var(--primary-yellow);
-            text-decoration: none;
-            font-size: 0.85rem;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            background-color: transparent;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .social-link:hover {
-            color: var(--black);
-            background-color: var(--primary-yellow);
-            border-color: var(--primary-yellow);
-            transform: translateY(-1px);
-        }
-
-        /* Footer Styles */
-        .footer {
-            background-color: var(--black);
-            color: white;
-            padding: 4rem 0;
-        }
-
-        /* Custom Styles dari kursusbahasa.org */
-        .bg-primary-yellow {
-            background-color: var(--primary-yellow) !important;
-        }
-
-        .text-primary-yellow {
-            color: var(--primary-yellow) !important;
-        }
-
-        .btn-primary-yellow {
-            background-color: var(--primary-yellow);
-            border-color: var(--primary-yellow);
-            color: var(--black);
-        }
-
-        .btn-primary-yellow:hover {
-            background-color: var(--dark-yellow);
-            border-color: var(--dark-yellow);
-            color: var(--black);
-        }
-
-        .btn-outline-yellow {
-            color: var(--primary-yellow);
-            border-color: var(--primary-yellow);
-        }
-
-        .btn-outline-yellow:hover {
-            background-color: var(--primary-yellow);
-            color: var(--black);
-        }
-
-        .border-yellow {
-            border-color: var(--primary-yellow) !important;
-        }
-
-        /* Card Styles dari kursusbahasa.org */
-        .program-card {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            overflow: hidden;
-            background: white;
-            height: 100%;
-        }
-
-        .program-card:hover {
-            border-color: var(--primary-yellow);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-5px);
-        }
-
-        .program-img-wrapper {
-            position: relative;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-        }
-
-        .program-img-wrapper img {
-            transition: transform 0.5s ease;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .program-card:hover .program-img-wrapper img {
-            transform: scale(1.1);
-        }
-
-        /* Badge Style */
-        .badge-category {
-            background: rgba(255, 215, 0, 0.1);
-            color: var(--dark-gray);
-            font-size: 0.75rem;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-
-        /* Filter Sidebar */
-        .filter-sidebar {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            background: #fff;
-            padding: 1.5rem;
-        }
-
-        /* Section Title */
-        .section-title {
-            font-weight: 800;
-            color: var(--black);
-            position: relative;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title::after {
-            content: "";
-            width: 50px;
-            height: 4px;
-            background: var(--primary-yellow);
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            transform: none;
-            border-radius: 2px;
-        }
-
-        .text-truncate-2 {
-            display: -webkit-box;
-            /* -webkit-line-clamp: 2; */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 3em;
-        }
-
-        /* Hero Section - mirip dengan kursusbahasa.org */
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
-                url("https://kursusbahasa.org/assets/img/gallery/kampung-inggris-pare.webp");
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 4rem 0;
-            min-height: 60vh;
-            overflow: hidden;
-        }
-
-        .hero-main-title {
-            font-size: 2.5rem;
-            line-height: 1.1;
-        }
-
-        /* Stats Card */
-        .stats-card-container {
-            margin-top: -60px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .stats-card {
-            border: none;
-            border-radius: 16px;
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-content {
-                flex-direction: column;
-                gap: 8px;
-                text-align: center;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-yellow': '#ffd700',
+                        'dark-yellow': '#ffc107',
+                        'black-gray': '#212529',
+                    }
+                }
             }
+        }
+    </script>
 
-            .nav-social {
-                gap: 6px;
-            }
-
+    <style type="text/tailwindcss">
+        @layer components {
             .social-link {
-                width: 26px;
-                height: 26px;
-                font-size: 0.8rem;
+                @apply w-8 h-8 flex items-center justify-center rounded-full border border-primary-yellow/30 text-primary-yellow transition-all duration-300 hover:bg-primary-yellow hover:text-black-gray hover:-translate-y-0.5;
             }
-
-            .hero-main-title {
-                font-size: 2rem;
+            .section-title {
+                @apply relative font-extrabold text-black-gray text-2xl mb-6 inline-block;
             }
-
-            .hero-section {
-                padding: 2.5rem 0;
+            .section-title::after {
+                @apply content-[''] w-12 h-1 bg-primary-yellow absolute -bottom-2 left-0 rounded-full;
             }
-        }
-
-        @media (max-width: 576px) {
-            .nav-content {
-                flex-direction: column;
-                gap: 8px;
-                text-align: center;
+            .program-card {
+                @apply bg-white border border-black/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-primary-yellow hover:shadow-xl hover:-translate-y-1 h-full;
             }
-
-            .nav-social {
-                gap: 5px;
-            }
-
-            .social-link {
-                width: 24px;
-                height: 24px;
-                font-size: 0.75rem;
-            }
-
-            .hero-main-title {
-                font-size: 1.6rem;
+            .btn-yellow {
+                @apply bg-primary-yellow text-black-gray font-bold py-2 px-6 rounded-lg transition-colors hover:bg-dark-yellow;
             }
         }
+
+        /* Orbit System Styles */
+.orbit-container {
+    position: relative;
+    width: 300px; /* Ukuran total orbit */
+    height: 300px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+.orbit-path {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: rotateOrbit 15s linear infinite;
+    transform-style: preserve-3d;
+}
+
+.flag-icon {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    /* Mengimbangi rotasi orbit agar bendera tetap tegak */
+    animation: counterRotate 15s linear infinite; 
+}
+
+/* Posisi Bendera di lintasan (0, 90, 180, 270 derajat) */
+.flag-1 { top: 0; left: 50%; transform: translateX(-50%); }
+.flag-2 { top: 50%; right: 0; transform: translateY(-50%); }
+.flag-3 { bottom: 0; left: 50%; transform: translateX(-50%); }
+.flag-4 { top: 50%; left: 0; transform: translateY(-50%); }
+
+@keyframes rotateOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes counterRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
     </style>
 
     <?= $this->renderSection('style') ?>
 </head>
 
-<body>
-    <!-- Top Navigation - STICKY (dari kursusbahasa.org) -->
-    <nav class="top-navigation" aria-label="Main Navigation">
-        <div class="container">
-            <div class="nav-content">
-                <div class="nav-brand">
-                    <a href="<?= base_url('/') ?>" style="text-decoration: none; color: #f8f9fa">
+<body class="bg-slate-50 text-slate-800 font-sans">
+    <nav class="sticky top-0 z-[1030] bg-black-gray text-white py-3 border-b-2 border-primary-yellow shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-xl font-bold tracking-tight">
+                    <a href="<?= base_url('/') ?>" class="no-underline text-slate-50">
                         <span class="text-primary-yellow">kursus</span>bahasa.org
                     </a>
                 </div>
-                <div class="nav-social">
-                    <!-- Link ke berbagai program bahasa -->
-                    <a href="<?= base_url('/?category=Mandarin') ?>" class="social-link" title="Program Mandarin">
-                        <img
-                            src="https://hatscripts.github.io/circle-flags/flags/cn.svg"
-                            width="20"
-                            height="20"
-                            alt="Mandarin"
-                            style="border-radius: 50%;" />
-                    </a>
-                    <a href="<?= base_url('/?category=Jepang') ?>" class="social-link" title="Program Jepang">
-                        <img
-                            src="https://hatscripts.github.io/circle-flags/flags/jp.svg"
-                            width="20"
-                            height="20"
-                            alt="Jepang"
-                            style="border-radius: 50%;" />
-                    </a>
-                    <a href="<?= base_url('/?category=Korea') ?>" class="social-link" title="Program Korea">
-                        <img
-                            src="https://hatscripts.github.io/circle-flags/flags/kr.svg"
-                            width="20"
-                            height="20"
-                            alt="Korea"
-                            style="border-radius: 50%;" />
-                    </a>
-                    <a href="<?= base_url('/?category=Jerman') ?>" class="social-link" title="Program Jerman">
-                        <img
-                            src="https://hatscripts.github.io/circle-flags/flags/de.svg"
-                            width="20"
-                            height="20"
-                            alt="Jerman"
-                            style="border-radius: 50%;" />
-                    </a>
-                    <a href="<?= base_url('/?category=Inggris') ?>" class="social-link" title="Program Inggris">
-                        <img
-                            src="https://hatscripts.github.io/circle-flags/flags/gb.svg"
-                            width="20"
-                            height="20"
-                            alt="Inggris"
-                            style="border-radius: 50%;" />
-                    </a>
+
+                <div class="flex items-center gap-2 flex-wrap justify-center">
+                    <?php
+                    $flags = [
+                        'cn' => 'Mandarin',
+                        'jp' => 'Jepang',
+                        'kr' => 'Korea',
+                        'de' => 'Jerman',
+                        'gb' => 'Inggris'
+                    ];
+                    foreach ($flags as $code => $name): ?>
+                        <a href="<?= base_url('/?category=' . $name) ?>" class="social-link" title="Program <?= $name ?>">
+                            <img src="https://hatscripts.github.io/circle-flags/flags/<?= $code ?>.svg" class="w-5 h-5 rounded-full" alt="<?= $name ?>" />
+                        </a>
+                    <?php endforeach; ?>
+
+                    <div class="w-px h-6 bg-slate-700 mx-1 hidden md:block"></div>
+
                     <a href="<?= base_url('/') ?>" class="social-link" title="Beranda">
-                        <i class="fas fa-home"></i>
+                        <i class="fas fa-home text-sm"></i>
                     </a>
+
                     <?php if (!empty($menu)): ?>
                         <?php foreach ($menu as $label => $url): ?>
                             <a href="<?= esc($url) ?>" class="social-link" title="<?= ucfirst($label) ?>">
-                                <i class="fas fa-<?= strtolower($label) ?>"></i>
+                                <i class="fas fa-<?= strtolower($label) ?> text-sm"></i>
                             </a>
                         <?php endforeach ?>
                     <?php endif ?>
@@ -352,91 +135,96 @@
         </div>
     </nav>
 
-    <main>
+    <main class="min-h-[70vh]">
         <?= $this->renderSection('content') ?>
     </main>
 
-    <!-- Footer (dari kursusbahasa.org) -->
-    <footer class="footer py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <h5 class="fw-bold">
-                        <a href="<?= base_url('/') ?>" style="text-decoration: none; color: white">
+    <footer class="bg-black-gray text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+                <div class="md:col-span-6">
+                    <h5 class="text-xl font-bold mb-4 italic uppercase">
+                        <a href="<?= base_url('/') ?>" class="text-white no-underline">
                             <span class="text-primary-yellow">kursus</span>bahasa.org
                         </a>
                     </h5>
-                    <p>
+                    <p class="text-slate-400 mb-6 leading-relaxed">
                         Lembaga kursus bahasa asing terpercaya dengan metode Kampung
                         Inggris untuk lima bahasa: Mandarin, Jepang, Korea, Jerman, dan
                         Inggris.
                     </p>
-                    <p class="small">
-                        SK Diknas: Nomor 421.9/1885/418.20/2023<br />
-                        SK KEMENKUMHAM Nomor AHU-0015725.AH.01.07.TAHUN 2018
-                    </p>
+                    <div class="p-4 bg-white/5 border-l-4 border-primary-yellow rounded-r-lg">
+                        <p class="text-xs text-slate-400 leading-loose uppercase tracking-wider font-semibold">
+                            SK Diknas: Nomor 421.9/1885/418.20/2023<br />
+                            SK KEMENKUMHAM Nomor AHU-0015725.AH.01.07.TAHUN 2018
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <h5 class="fw-bold">Tautan Cepat</h5>
-                    <ul class="list-unstyled">
+
+                <div class="md:col-span-3">
+                    <h5 class="text-lg font-bold mb-6 border-b border-slate-700 pb-2">Tautan Cepat</h5>
+                    <ul class="space-y-3">
                         <li>
-                            <a href="<?= base_url('/') ?>" class="text-white text-decoration-none">Home</a>
+                            <a href="<?= base_url('/') ?>" class="text-slate-400 hover:text-primary-yellow transition-colors no-underline flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-[10px]"></i> Home
+                            </a>
                         </li>
                         <?php if (!empty($menu)): ?>
                             <?php foreach ($menu as $label => $url): ?>
                                 <li>
-                                    <a href="<?= esc($url) ?>" class="text-white text-decoration-none">
-                                        <?= ucfirst($label) ?>
+                                    <a href="<?= esc($url) ?>" class="text-slate-400 hover:text-primary-yellow transition-colors no-underline flex items-center gap-2">
+                                        <i class="fas fa-chevron-right text-[10px]"></i> <?= ucfirst($label) ?>
                                     </a>
                                 </li>
                             <?php endforeach ?>
                         <?php endif ?>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h5 class="fw-bold">Kontak</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <i class="fas fa-map-marker-alt me-2"></i> Perum GPR 1 Blok C
-                            No.4, Jl. Veteran Tulungrejo, Pare, Kediri 64212
+
+                <div class="md:col-span-3">
+                    <h5 class="text-lg font-bold mb-6 border-b border-slate-700 pb-2">Kontak Kami</h5>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3 items-start group">
+                            <i class="fas fa-map-marker-alt text-primary-yellow mt-1 transition-transform group-hover:scale-125"></i>
+                            <span class="text-slate-400 text-sm">Perum GPR 1 Blok C No.4, Jl. Veteran Tulungrejo, Pare, Kediri 64212</span>
                         </li>
-                        <li><i class="fas fa-phone me-2"></i> 0858 1031 0950</li>
-                        <li>
-                            <i class="fas fa-envelope me-2"></i> info@kursusbahasa.org
+                        <li class="flex gap-3 items-center group">
+                            <i class="fas fa-phone text-primary-yellow transition-transform group-hover:scale-125"></i>
+                            <span class="text-slate-400 text-sm">0858 1031 0950</span>
+                        </li>
+                        <li class="flex gap-3 items-center group">
+                            <i class="fas fa-envelope text-primary-yellow transition-transform group-hover:scale-125"></i>
+                            <span class="text-slate-400 text-sm">info@kursusbahasa.org</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <hr class="mt-4 mb-3" />
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-0">
-                        &copy; <?= date('Y') ?> kursusbahasa.org. All rights reserved.
-                    </p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <a href="https://wa.me/6285810310950" class="text-white me-3" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.youtube.com/@kursusbahasa" class="text-white me-3" target="_blank">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="https://www.facebook.com/kursusbahasa" class="text-white me-3" target="_blank">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@kursusbahasa" class="text-white me-3" target="_blank">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="https://www.instagram.com/kursusbahasa" class="text-white" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                    </a>
+
+            <div class="pt-8 border-t border-slate-800">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-slate-500 text-sm">
+                        &copy; <?= date('Y') ?> <span class="text-slate-300 font-bold">kursusbahasa.org</span>. All rights reserved.
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <?php
+                        $socials = [
+                            'whatsapp' => 'https://wa.me/6285810310950',
+                            'youtube' => 'https://www.youtube.com/@kursusbahasa',
+                            'facebook' => 'https://www.facebook.com/kursusbahasa',
+                            'tiktok' => 'https://www.tiktok.com/@kursusbahasa',
+                            'instagram' => 'https://www.instagram.com/kursusbahasa'
+                        ];
+                        foreach ($socials as $icon => $link): ?>
+                            <a href="<?= $link ?>" class="text-slate-400 hover:text-primary-yellow text-xl transition-all hover:scale-125" target="_blank">
+                                <i class="fab fa-<?= $icon ?>"></i>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
-
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <?= $this->renderSection('script') ?>
 </body>

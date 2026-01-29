@@ -15,7 +15,7 @@ class BankModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = true; // <--- Mengaktifkan Soft Delete
 
-    protected $allowedFields = ['bank_name', 'account_number', 'account_holder', 'bank_logo', 'is_active'];
+    protected $allowedFields = ['bank_name', 'account_number', 'account_holder', 'bank_logo', 'is_active', 'deleted_at'];
 
     // Aktifkan timestamp otomatis
     protected $useTimestamps = true;

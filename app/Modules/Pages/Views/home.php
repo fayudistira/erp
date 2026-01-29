@@ -2,55 +2,16 @@
 
 <?= $this->section('style') ?>
 <style>
-    /* Spinning Text Styles (dari kursusbahasa.org) */
-    .spinning-text-wrapper {
-        display: block;
-        position: relative;
-        margin: 25px 0 20px 0;
-    }
-
-    .spinning-text-container {
-        display: block;
-        position: relative;
-        height: 55px;
-        text-align: left;
-        margin: 0;
-        overflow: none;
-    }
-
-    .spinning-text {
-        display: block;
-        width: 100%;
-        color: var(--primary-yellow);
-        font-weight: bold;
-        font-size: 2.5rem;
-        position: absolute;
-        left: 0;
-        right: 0;
-        opacity: 0;
-        transform: scale(0.8);
-        transition: none;
-        line-height: 1.1;
-        top: 5px;
-    }
-
-    .text-zoom-in {
-        animation: zoomIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-
-    .text-fade-out {
-        animation: fadeOut 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
-    }
-
-    @keyframes zoomIn {
+    /* Animasi Teks Spinning */
+    @keyframes zoomInCustom {
         0% {
-            transform: scale(0.8) translateY(10px);
+            transform: scale(0.8) translateY(8px);
             opacity: 0;
             filter: blur(2px);
         }
 
         70% {
-            transform: scale(1.05) translateY(0);
+            transform: scale(1.02) translateY(0);
             filter: blur(0);
         }
 
@@ -61,7 +22,7 @@
         }
     }
 
-    @keyframes fadeOut {
+    @keyframes fadeOutCustom {
         0% {
             transform: scale(1) translateY(0);
             opacity: 1;
@@ -69,340 +30,138 @@
         }
 
         30% {
-            transform: scale(1.1) translateY(-5px);
+            transform: scale(1.05) translateY(-3px);
             filter: blur(1px);
         }
 
         100% {
-            transform: scale(0.8) translateY(10px);
+            transform: scale(0.8) translateY(8px);
             opacity: 0;
             filter: blur(2px);
         }
     }
 
-    /* Hero Section Styles (dari kursusbahasa.org) */
-    .hero-section {
-        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
-            url("https://kursusbahasa.org/assets/img/gallery/kampung-inggris-pare.webp");
-        background-size: cover;
-        background-position: center;
-        color: white;
-        padding: 4rem 0;
-        min-height: 60vh;
-        overflow: hidden;
+    .text-zoom-in {
+        animation: zoomInCustom 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    .hero-line {
-        display: block;
-        margin-bottom: 1px;
-        line-height: 1.2;
+    .text-fade-out {
+        animation: fadeOutCustom 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
     }
 
-    /* Package Card Styles (dari kursusbahasa.org) */
-    .package-card {
-        height: 100%;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        border-radius: 8px;
-        overflow: hidden;
-        background: white;
-        display: flex;
-        flex-direction: column;
+    /* Orbit System (Bendera Memutar) */
+    .orbit-container {
+        position: relative;
+        width: 280px;
+        /* Ukuran diperkecil 20% */
+        height: 280px;
+        margin: 0 auto;
     }
 
-    .package-card:hover {
-        border-color: var(--primary-yellow);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .package-card-body {
-        padding: 1.2rem;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .package-card-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
-        color: var(--black);
-    }
-
-    .package-card-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 0.8rem;
-    }
-
-    .meta-badge {
-        background-color: rgba(255, 215, 0, 0.1);
-        color: var(--dark-gray);
-        font-size: 0.7rem;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
-        border: 1px solid rgba(255, 215, 0, 0.2);
-    }
-
-    .meta-badge.highlight {
-        background-color: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-        border-color: rgba(220, 53, 69, 0.2);
-    }
-
-    .package-card-description {
-        color: var(--dark-gray);
-        font-size: 0.85rem;
-        margin-bottom: 1rem;
-        line-height: 1.4;
-        flex-grow: 1;
-    }
-
-    .package-options-list {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 1.2rem 0;
-        background-color: rgba(248, 249, 250, 0.8);
-        border-radius: 6px;
-        padding: 0.8rem;
-    }
-
-    .package-option-item {
-        padding: 0.25rem 0;
-        font-size: 0.8rem;
-        color: var(--dark-gray);
-        display: flex;
-        align-items: flex-start;
-        gap: 0.4rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .package-option-item:last-child {
-        border-bottom: none;
-    }
-
-    .package-option-item i {
-        color: var(--primary-yellow);
-        font-size: 0.7rem;
-        margin-top: 0.15rem;
-        flex-shrink: 0;
-    }
-
-    .package-card-footer {
-        padding-top: 0.8rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        margin-top: auto;
-    }
-
-    .btn-package-detail {
-        background-color: transparent;
-        color: var(--primary-yellow);
-        border: 1px solid var(--primary-yellow);
-        padding: 0.4rem 1rem;
-        border-radius: 6px;
-        font-weight: 500;
-        font-size: 0.85rem;
+    .orbit-path {
+        position: absolute;
         width: 100%;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-        text-decoration: none;
-        cursor: pointer;
+        height: 100%;
+        animation: rotateOrbit 20s linear infinite;
     }
 
-    .btn-package-detail:hover {
-        background-color: var(--primary-yellow);
-        color: var(--black);
+    .flag-orbit {
+        position: absolute;
+        width: 32px;
+        /* Ukuran bendera diperkecil */
+        height: 32px;
+        background: white;
+        border-radius: 50%;
+        padding: 3px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        animation: counterRotate 20s linear infinite;
     }
 
-    /* Form Control Custom */
-    .form-select.custom-select {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-        color: var(--dark-gray);
+    /* Penempatan Bendera di Orbit */
+    .f-1 {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    .form-select.custom-select:focus {
-        border-color: var(--primary-yellow);
-        box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+    .f-2 {
+        top: 50%;
+        right: 0;
+        transform: translate(50%, -50%);
     }
 
-    .form-check.custom-radio .form-check-input {
-        border: 2px solid rgba(0, 0, 0, 0.25);
+    .f-3 {
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 50%);
     }
 
-    .form-check.custom-radio .form-check-input:checked {
-        background-color: var(--primary-yellow);
-        border-color: var(--primary-yellow);
+    .f-4 {
+        top: 50%;
+        left: 0;
+        transform: translate(-50%, -50%);
     }
 
-    /* Price Styling */
-    .original-price {
-        font-size: 0.7rem;
-        text-decoration: line-through;
-        color: var(--dark-gray);
-    }
+    @keyframes rotateOrbit {
+        from {
+            transform: rotate(0deg);
+        }
 
-    .current-price {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: var(--primary-yellow);
-    }
-
-    /* Accordion Style */
-    .accordion-item {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        margin-bottom: 10px;
-        overflow: hidden;
-    }
-
-    .accordion-button {
-        background-color: white;
-        color: var(--black);
-        font-weight: 600;
-    }
-
-    .accordion-button:not(.collapsed) {
-        background-color: rgba(255, 215, 0, 0.1);
-        color: var(--black);
-        border-bottom: 1px solid var(--primary-yellow);
-    }
-
-    .accordion-button:focus {
-        border-color: var(--primary-yellow);
-        box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
-    }
-
-    .accordion-button::after {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-    }
-
-    .accordion-button:not(.collapsed)::after {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-        .spinning-text-wrapper {
-            margin: 20px 0 15px 0;
+        to {
+            transform: rotate(360deg);
         }
     }
 
-    @media (max-width: 768px) {
-        .spinning-text-wrapper {
-            margin: 15px 0 10px 0;
+    @keyframes counterRotate {
+        from {
+            transform: rotate(0deg);
         }
 
-        .spinning-text-container {
-            height: 50px;
-            text-align: left;
-        }
-
-        .spinning-text {
-            font-size: 1.6rem;
-        }
-
-        .hero-main-title {
-            font-size: 2rem;
-            text-align: left;
-        }
-
-        .hero-section h1 {
-            font-size: 1.8rem;
-            text-align: left;
-        }
-
-        .package-card-body {
-            padding: 1rem;
-        }
-
-        .package-card-title {
-            font-size: 1rem;
-        }
-
-        .stats-card-container {
-            margin-top: -40px;
+        to {
+            transform: rotate(-360deg);
         }
     }
 
-    @media (max-width: 576px) {
-        .spinning-text-wrapper {
-            margin: 12px 0 8px 0;
-        }
-
-        .spinning-text-container {
-            height: 45px;
-            text-align: left;
-        }
-
-        .spinning-text {
-            font-size: 1.4rem;
-            text-align: left;
-        }
-
-        .hero-main-title {
-            font-size: 1.6rem;
-            text-align: left;
-        }
-
-        .hero-section {
-            padding: 2.5rem 0;
-        }
-
-        .hero-section h1 {
-            font-size: 1.5rem;
-            text-align: left;
-        }
-
-        .package-card {
-            margin-bottom: 1.5rem;
-        }
-
-        .stats-card-container {
-            margin-top: -30px;
-        }
+    :root {
+        --primary-yellow: #FFD700;
     }
 </style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<!-- Hero Section dengan Spinning Text (dari kursusbahasa.org) -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 text-lg-start mb-4 mb-lg-0">
-                <h1 class="display-5 fw-bold hero-main-title">
-                    <span class="hero-line d-block">Mau belajar</span>
-                    <div class="spinning-text-wrapper">
-                        <div class="spinning-text-container">
-                            <span class="spinning-text text-zoom-in" id="spinningText">Bahasa Mandarin</span>
-                        </div>
+<section class="relative py-12 lg:py-16 min-h-[50vh] flex items-center bg-cover bg-center text-white overflow-hidden"
+    style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url('https://kursusbahasa.org/assets/img/gallery/kampung-inggris-pare.webp');">
+    <div class="max-w-6xl mx-auto px-4 w-full">
+        <div class="flex flex-wrap items-center">
+            <div class="w-full lg:w-1/2 text-left mb-8 lg:mb-0">
+                <h1 class="text-3xl lg:text-5xl font-extrabold leading-tight">
+                    <span class="block mb-0.5">Mau belajar</span>
+                    <div class="relative h-10 lg:h-14 my-2">
+                        <span id="spinningText" class="absolute left-0 top-0 text-[var(--primary-yellow)] opacity-0 scale-75 leading-tight text-zoom-in">
+                            Bahasa Mandarin
+                        </span>
                     </div>
-                    <span class="hero-line d-block">di Kampung Inggris?</span>
+                    <span class="block">di Kampung Inggris?</span>
                 </h1>
-                <p class="lead mb-4">
+                <p class="text-sm lg:text-base opacity-85 mb-6 mt-4 max-w-md">
                     Bergabunglah dengan ribuan siswa yang telah sukses menguasai bahasa asing bersama kami.
                 </p>
-                <a href="#programs" class="btn btn-primary-yellow btn-lg mt-3">
-                    Mulai Belajar <i class="fas fa-arrow-right"></i>
+                <a href="#programs" class="inline-flex items-center gap-2 bg-[var(--primary-yellow)] text-black px-6 py-3 rounded-full font-bold text-sm hover:bg-yellow-400 transition-all transform hover:-translate-y-1">
+                    Mulai Belajar <i class="fas fa-arrow-right text-xs"></i>
                 </a>
             </div>
-            <div class="col-lg-6 d-none d-lg-block text-center">
-                <div class="animation-3d-system">
-                    <div class="animation-logo-container">
-                        <img src="https://kursusbahasa.org/assets/img/logo-sos.webp"
-                            alt="Logo Kursus Bahasa"
-                            class="animation-logo"
-                            width="200"
-                            height="200">
+
+            <div class="hidden lg:block lg:w-1/2">
+                <div class="orbit-container">
+                    <div class="absolute inset-0 flex items-center justify-center z-10">
+                        <img src="https://kursusbahasa.org/assets/img/logo-sos.webp" alt="Logo" class="w-32 h-32 object-contain drop-shadow-xl opacity-90">
+                    </div>
+                    <div class="orbit-path">
+                        <div class="flag-orbit f-1"><img src="https://flagcdn.com/w40/cn.png" class="rounded-full w-full h-full object-cover"></div>
+                        <div class="flag-orbit f-2"><img src="https://flagcdn.com/w40/jp.png" class="rounded-full w-full h-full object-cover"></div>
+                        <div class="flag-orbit f-3"><img src="https://flagcdn.com/w40/kr.png" class="rounded-full w-full h-full object-cover"></div>
+                        <div class="flag-orbit f-4"><img src="https://flagcdn.com/w40/de.png" class="rounded-full w-full h-full object-cover"></div>
                     </div>
                 </div>
             </div>
@@ -410,245 +169,124 @@
     </div>
 </section>
 
-<!-- Stats Cards -->
-<div class="container stats-card-container">
-    <div class="card stats-card border-0">
-        <div class="card-body py-4">
-            <div class="row g-4 text-center">
-                <div class="col-md-3 border-end border-secondary">
-                    <h3 class="fw-bold text-primary-yellow mb-0">12+</h3>
-                    <small class="text-muted text-uppercase fw-semibold">Bahasa Asing</small>
-                </div>
-                <div class="col-md-3 border-end border-secondary">
-                    <h3 class="fw-bold text-primary-yellow mb-0">150+</h3>
-                    <small class="text-muted text-uppercase fw-semibold">Mentor Ahli</small>
-                </div>
-                <div class="col-md-3 border-end border-secondary">
-                    <h3 class="fw-bold text-primary-yellow mb-0">98%</h3>
-                    <small class="text-muted text-uppercase fw-semibold">Peserta Lulus</small>
-                </div>
-                <div class="col-md-3">
-                    <h3 class="fw-bold text-primary-yellow mb-0">24/7</h3>
-                    <small class="text-muted text-uppercase fw-semibold">Akses Materi</small>
-                </div>
+<div class="max-w-5xl mx-auto px-4 -mt-10 relative z-10">
+    <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div class="md:border-r border-gray-100 last:border-0">
+                <h3 class="text-2xl font-bold text-yellow-500">12+</h3>
+                <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Bahasa Asing</p>
+            </div>
+            <div class="md:border-r border-gray-100 last:border-0">
+                <h3 class="text-2xl font-bold text-yellow-500">150+</h3>
+                <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Mentor Ahli</p>
+            </div>
+            <div class="md:border-r border-gray-100 last:border-0">
+                <h3 class="text-2xl font-bold text-yellow-500">98%</h3>
+                <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Peserta Lulus</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-yellow-500">24/7</h3>
+                <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Akses Materi</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Programs Section -->
-<section id="programs" class="py-5 bg-light">
-    <div class="container py-4">
-        <div class="text-center mb-5">
-            <h2 class="section-title">Program Unggulan Kami</h2>
-            <p class="text-muted">Pilih paket belajar yang paling sesuai dengan tujuan karier atau pendidikan Anda.</p>
+<section id="programs" class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-10">
+            <h2 class="text-2xl lg:text-3xl font-bold mb-3">Program Unggulan</h2>
+            <div class="w-12 h-0.5 bg-yellow-400 mx-auto mb-3"></div>
+            <p class="text-gray-500 text-sm">Pilih paket belajar yang sesuai dengan tujuan Anda.</p>
         </div>
 
-        <div class="row">
-            <!-- Filter Sidebar -->
-            <div class="col-lg-3 mb-4">
-                <div class="filter-sidebar">
-                    <h6 class="fw-bold mb-3 d-flex align-items-center">
-                        <i class="fas fa-filter me-2"></i> Filter Pencarian
+        <div class="flex flex-wrap -mx-3">
+            <aside class="w-full lg:w-1/5 px-3 mb-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 sticky top-20">
+                    <h6 class="text-xs font-bold mb-3 flex items-center gap-2">
+                        <i class="fas fa-filter text-yellow-500"></i> Filter
                     </h6>
-                    <form action="<?= base_url('/') ?>" method="get" id="filterForm">
-                        <div class="mb-4">
-                            <label class="small fw-bold text-muted mb-2">Kategori Bahasa</label>
-                            <select name="category" class="form-select custom-select" onchange="this.form.submit()">
-                                <option value="">Semua Kategori</option>
+                    <form action="<?= base_url('/') ?>" method="get" class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Bahasa</label>
+                            <select name="category" onchange="this.form.submit()" class="w-full border-gray-200 rounded-lg text-xs py-1.5 focus:ring-yellow-500">
+                                <option value="">Semua</option>
                                 <?php foreach ($categories as $cat): ?>
-                                    <option value="<?= $cat['category'] ?>" <?= ($filter['category'] ?? '') == $cat['category'] ? 'selected' : '' ?>>
-                                        <?= $cat['category'] ?>
-                                    </option>
+                                    <option value="<?= $cat['category'] ?>" <?= ($filter['category'] ?? '') == $cat['category'] ? 'selected' : '' ?>><?= $cat['category'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-
-                        <div class="mb-4">
-                            <label class="small fw-bold text-muted mb-2">Metode Belajar</label>
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-check custom-radio">
-                                    <input class="form-check-input" type="radio" name="classtype" value="" id="typeAll"
-                                        <?= empty($filter['classtype']) ? 'checked' : '' ?> onchange="this.form.submit()">
-                                    <label class="form-check-label small" for="typeAll">Semua Tipe</label>
-                                </div>
-                                <div class="form-check custom-radio">
-                                    <input class="form-check-input" type="radio" name="classtype" value="Online" id="typeOnline"
-                                        <?= ($filter['classtype'] ?? '') == 'Online' ? 'checked' : '' ?> onchange="this.form.submit()">
-                                    <label class="form-check-label small" for="typeOnline">Online (Zoom/LMS)</label>
-                                </div>
-                                <div class="form-check custom-radio">
-                                    <input class="form-check-input" type="radio" name="classtype" value="Offline" id="typeOffline"
-                                        <?= ($filter['classtype'] ?? '') == 'Offline' ? 'checked' : '' ?> onchange="this.form.submit()">
-                                    <label class="form-check-label small" for="typeOffline">Offline (Tatap Muka)</label>
-                                </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Metode</label>
+                            <div class="space-y-1.5 text-xs text-gray-600">
+                                <?php $types = ['' => 'Semua', 'Online' => 'Online', 'Offline' => 'Offline'];
+                                foreach ($types as $val => $label): ?>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="classtype" value="<?= $val ?>" onchange="this.form.submit()" class="text-yellow-500 w-3 h-3" <?= ($filter['classtype'] ?? '') == $val ? 'checked' : '' ?>>
+                                        <span><?= $label ?></span>
+                                    </label>
+                                <?php endforeach; ?>
                             </div>
                         </div>
-
-                        <a href="<?= base_url('/') ?>" class="btn btn-outline-yellow btn-sm w-100 rounded-pill mt-2">
-                            <i class="fas fa-redo me-1"></i> Reset Filter
-                        </a>
                     </form>
                 </div>
-            </div>
+            </aside>
 
-            <!-- Programs Cards -->
-            <div class="col-lg-9">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-                    <?php if (!empty($programs)): ?>
-                        <?php foreach ($programs as $prog): ?>
-                            <div class="col">
-                                <div class="program-card">
-                                    <div class="program-img-wrapper">
-                                        <img src="<?= base_url('uploads/programs/' . ($prog['thumbnails'] ?: 'default.jpg')) ?>"
-                                            alt="<?= esc($prog['title']) ?>">
-                                        <div class="position-absolute top-0 start-0 p-3">
-                                            <span class="badge bg-white text-dark shadow-sm rounded-pill fw-bold" style="font-size: 0.7rem;">
-                                                <i class="fas fa-fire text-primary-yellow me-1"></i>Populer
-                                            </span>
-                                        </div>
+            <main class="w-full lg:w-4/5 px-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <?php if (!empty($programs)): foreach ($programs as $prog): ?>
+                            <div class="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all flex flex-col group">
+                                <div class="relative h-36 overflow-hidden">
+                                    <img src="<?= base_url('uploads/programs/' . ($prog['thumbnails'] ?: 'default.jpg')) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <div class="flex flex-wrap gap-1.5 mb-2">
+                                        <span class="bg-yellow-50 text-yellow-700 text-[9px] font-bold px-1.5 py-0.5 rounded"><?= esc($prog['category']) ?></span>
+                                        <span class="bg-gray-50 text-gray-500 text-[9px] font-bold px-1.5 py-0.5 rounded"><?= esc($prog['duration']) ?></span>
                                     </div>
-
-                                    <div class="package-card-body">
-                                        <div class="package-card-meta">
-                                            <span class="badge-category"><?= esc($prog['category']) ?></span>
-                                            <span class="meta-badge"><?= esc($prog['duration']) ?></span>
-                                            <?php if ($prog['classtype'] == 'Online'): ?>
-                                                <span class="meta-badge highlight">Online</span>
-                                            <?php endif; ?>
+                                    <h5 class="font-bold text-gray-900 text-sm leading-tight mb-2 line-clamp-2"><?= esc($prog['title']) ?></h5>
+                                    <div class="mt-auto pt-3 border-t border-gray-100 flex items-end justify-between">
+                                        <div>
+                                            <span class="block text-[9px] text-gray-400 line-through">IDR <?= number_format($prog['tuition'] * 1.2, 0, ',', '.') ?></span>
+                                            <span class="text-sm font-bold text-yellow-600">IDR <?= number_format($prog['tuition'], 0, ',', '.') ?></span>
                                         </div>
-
-                                        <h5 class="package-card-title"><?= esc($prog['title']) ?></h5>
-
-                                        <p class="package-card-description text-truncate-2">
-                                            <?= strip_tags($prog['description']) ?>
-                                        </p>
-
-                                        <div class="package-options-list">
-                                            <div class="package-option-item">
-                                                <i class="fas fa-check"></i>
-                                                <span>Pengajar bersertifikat</span>
-                                            </div>
-                                            <div class="package-option-item">
-                                                <i class="fas fa-check"></i>
-                                                <span>Materi lengkap</span>
-                                            </div>
-                                            <div class="package-option-item">
-                                                <i class="fas fa-check"></i>
-                                                <span>Sertifikat resmi</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-between align-items-end mt-auto">
-                                            <div>
-                                                <small class="original-price d-block">
-                                                    IDR <?= number_format($prog['tuition'] * 1.2, 0, ',', '.') ?>
-                                                </small>
-                                                <h5 class="current-price mb-0">
-                                                    IDR <?= number_format($prog['tuition'], 0, ',', '.') ?>
-                                                </h5>
-                                            </div>
-                                            <small class="text-muted">
-                                                <i class="fas fa-clock me-1"></i><?= esc($prog['classtype']) ?>
-                                            </small>
-                                        </div>
-
-                                        <div class="package-card-footer">
-                                            <div class="d-flex gap-2">
-                                                <a href="<?= base_url('programs/show/' . $prog['id']) ?>"
-                                                    class="btn-package-detail">
-                                                    <span>DETAIL</span>
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </a>
-                                                <a href="<?= base_url('daftar/' . $prog['id']) ?>"
-                                                    class="btn btn-primary-yellow btn-sm flex-grow-1 fw-bold rounded-pill py-2">
-                                                    DAFTAR
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <a href="<?= base_url('programs/show/' . $prog['id']) ?>" class="bg-black text-white px-4 py-1.5 rounded-lg text-[10px] font-bold hover:bg-yellow-500 transition-colors">DAFTAR</a>
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="col-12 text-center py-5 bg-white rounded-4 shadow-sm">
-                            <i class="fas fa-search display-1 text-light"></i>
-                            <h5 class="mt-3 fw-bold">Tidak ditemukan</h5>
-                            <p class="text-muted">Coba ubah filter atau kata kunci pencarian Anda.</p>
-                        </div>
+                        <?php endforeach;
+                    else: ?>
+                        <div class="col-span-full py-10 text-center border-2 border-dashed border-gray-100 rounded-2xl text-gray-400 text-sm">Tidak ditemukan program.</div>
                     <?php endif; ?>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 </section>
 
-<!-- FAQ Section -->
-<section class="py-5">
-    <div class="container py-4">
-        <div class="row">
-            <div class="col-lg-4 mb-4 mb-lg-0">
-                <h2 class="section-title">Punya Pertanyaan?</h2>
-                <p class="text-muted mt-3">Berikut adalah beberapa jawaban atas keraguan yang sering ditanyakan oleh calon peserta didik kami.</p>
-                <div class="mt-4 p-4 bg-black text-white rounded-4">
-                    <h6>Masih Bingung?</h6>
-                    <p class="small opacity-75">Konsultasikan kebutuhan belajarmu dengan tim ahli kami secara gratis.</p>
-                    <a href="https://wa.me/6285810310950"
-                        class="btn btn-primary-yellow btn-sm fw-bold px-4 rounded-pill"
-                        target="_blank">
-                        Chat Admin
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="accordion" id="faqHome">
-                    <?php if (!empty($faqs)): ?>
-                        <?php foreach ($faqs as $key => $faq): ?>
-                            <div class="accordion-item mb-3">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button <?= $key === 0 ? '' : 'collapsed' ?> fw-bold py-3"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#faq-<?= $faq['id'] ?>"
-                                        aria-expanded="<?= $key === 0 ? 'true' : 'false' ?>">
-                                        <?= esc($faq['question']) ?>
-                                    </button>
-                                </h2>
-                                <div id="faq-<?= $faq['id'] ?>"
-                                    class="accordion-collapse collapse <?= $key === 0 ? 'show' : '' ?>"
-                                    data-bs-parent="#faqHome">
-                                    <div class="accordion-body text-muted small">
-                                        <?= nl2br(esc((string) $faq['answer'])) ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="text-center py-4">
-                            <p class="text-muted italic">Belum ada FAQ tersedia.</p>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section (dari kursusbahasa.org) -->
-<section id="cta" class="py-5 bg-black text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="fw-bold mb-3">Siap Menguasai Bahasa Asing?</h2>
-                <p class="lead mb-4">
-                    Daftar sekarang dan dapatkan konsultasi gratis dengan pengajar kami. Mulai perjalanan bahasa Anda bersama kursusbahasa.org!
-                </p>
-                <a href="https://wa.me/6285810310950?text=Hai,%20saya%20mau%20konsultasi%20mengenai%20program%20kursus%20di%20kursusbahasa.org"
-                    target="_blank"
-                    class="btn btn-outline-yellow btn-lg mb-2">
-                    Konsultasi Gratis
+<section class="py-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full lg:w-1/3 px-4 mb-8">
+                <h2 class="text-xl font-bold mb-2">Punya Pertanyaan?</h2>
+                <p class="text-xs text-gray-500 mb-6">Konsultasi gratis dengan admin kami.</p>
+                <a href="https://wa.me/6285810310950" class="inline-flex items-center gap-2 bg-black text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fab fa-whatsapp"></i> Chat Admin
                 </a>
-                <p class="mt-3 small">info@kursusbahasa.org</p>
+            </div>
+            <div class="w-full lg:w-2/3 px-4 space-y-3">
+                <?php if (!empty($faqs)): foreach ($faqs as $key => $faq): ?>
+                        <div class="border border-gray-100 rounded-xl">
+                            <button class="w-full flex items-center justify-between p-4 text-left font-bold text-xs text-gray-700 hover:bg-gray-50 transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                                <span><?= esc($faq['question']) ?></span>
+                                <i class="fas fa-chevron-down text-[10px]"></i>
+                            </button>
+                            <div class="<?= $key === 0 ? '' : 'hidden' ?> p-4 pt-0 text-[11px] text-gray-500 leading-relaxed">
+                                <?= nl2br(esc((string) $faq['answer'])) ?>
+                            </div>
+                        </div>
+                <?php endforeach;
+                endif; ?>
             </div>
         </div>
     </div>
@@ -658,60 +296,21 @@
 
 <?= $this->section('script') ?>
 <script>
-    // Spinning Text Animation (dari kursusbahasa.org)
     document.addEventListener("DOMContentLoaded", function() {
         const spinningText = document.getElementById("spinningText");
         if (spinningText) {
-            const languages = [
-                "Bahasa Mandarin",
-                "Bahasa Jepang",
-                "Bahasa Korea",
-                "Bahasa Jerman",
-                "Bahasa Inggris",
-            ];
+            const languages = ["Bahasa Mandarin", "Bahasa Jepang", "Bahasa Korea", "Bahasa Jerman", "Bahasa Inggris"];
             let currentIndex = 0;
-
-            function changeText() {
+            setInterval(() => {
                 spinningText.classList.remove("text-zoom-in");
                 spinningText.classList.add("text-fade-out");
-
                 setTimeout(() => {
                     currentIndex = (currentIndex + 1) % languages.length;
                     spinningText.textContent = languages[currentIndex];
-
                     spinningText.classList.remove("text-fade-out");
                     spinningText.classList.add("text-zoom-in");
                 }, 700);
-            }
-
-            setTimeout(() => {
-                setInterval(changeText, 3000);
-            }, 1000);
-        }
-
-        // Smooth scroll for anchors
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Navbar scroll effect
-        const header = document.querySelector(".top-navigation");
-        if (header) {
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 100) {
-                    header.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.2)";
-                } else {
-                    header.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
-                }
-            });
+            }, 3500);
         }
     });
 </script>

@@ -265,4 +265,43 @@ class ProgramsController extends BaseController
         fclose($fp);
         return $csv;
     }
+
+    public function apiIndex($id = null)
+    {
+        // Mengatur Header CORS secara eksplisit
+        $this->response->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
+        // Tangani pre-flight request dari browser
+        if ($this->request->getMethod() === 'options') {
+            return $this->response->setStatusCode(200);
+        }
+
+        $model = new \Modules\Programs\Models\ProgramsModel();
+
+        if ($id !== null) {
+            $data = $model->find($id);
+
+            if (!$data) {
+                return $this->response->setStatusCode(404)->setJSON([
+                    'status' => false,
+                    'message' => 'Program tidak ditemukan',
+                ]);
+            }
+
+            return $this->response->setJSON([
+                'status' => true,
+                'data'   => $data,
+            ]);
+        }
+
+        // Ambil semua data
+        $data = $model->findAll();
+        return $this->response->setJSON([
+            'status' => true,
+            'total'  => count($data),
+            'data'   => $data,
+        ]);
+    }
 }

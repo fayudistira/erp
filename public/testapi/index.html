@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Program Kursus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto">
+      <header class="mb-10 text-center">
+        <h1 class="text-4xl font-bold text-gray-800">Program Tersedia</h1>
+        <p class="text-gray-600 mt-2">
+          Pilih program yang sesuai dengan kebutuhan Anda
+        </p>
+      </header>
+
+      <div id="loading" class="text-center text-xl font-semibold">
+        Memuat program...
+      </div>
+
+      <div
+        id="program-container"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      ></div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:8080/api/programs"; // Sesuaikan URL project Anda
+
+      async function fetchPrograms() {
+        try {
+          const response = await fetch(API_URL);
+          const result = await response.json();
+
+          if (result.status) {
+            renderPrograms(result.data);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          document.getElementById("loading").innerText = "Gagal memuat data.";
+        } finally {
+          document.getElementById("loading").classList.add("hidden");
+        }
+      }
+
+      function renderPrograms(programs) {
+        const container = document.getElementById("program-container");
+        container.innerHTML = programs
+          .map(
+            (program) => `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-gray-200">
+                    <img class="h-48 w-full object-cover" 
+                         src="http://localhost:8080/uploads/programs/${program.thumbnails || "default.jpg"}" 
+                         alt="${program.title}">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded uppercase">
+                                ${program.category}
+                            </span>
+                            <span class="text-green-600 font-bold">
+                                Rp ${parseInt(program.tuition).toLocaleString("id-ID")}
+                            </span>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900 mb-2">${program.title}</h2>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${program.description}</p>
+                        
+                        <div class="flex items-center text-gray-500 text-xs mb-4">
+                            <span class="mr-3">⏱ ${program.duration}</span>
+                            <span>📍 ${program.classtype}</span>
+                        </div>
+
+                        <a href="detail.html?id=${program.id}" 
+                           class="block text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                            Lihat Detail
+                        </a>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+      fetchPrograms();
+    </script>
+  </body>
+</html>

@@ -1,149 +1,100 @@
 <?= $this->extend('layouts/dashboards/dashboard_layout') ?>
 
 <?= $this->section('content') ?>
-<div class="container-fluid px-4">
-    <h1 class="mt-4"><?= $title ?></h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>
-        <li class="breadcrumb-item active">Bank</li>
-    </ol>
-
-    <?php if (session()->getFlashdata('success')) : ?>
-        <div class="alert alert-success border-0 shadow-sm"><?= session()->getFlashdata('success') ?></div>
-    <?php endif; ?>
-
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header d-flex justify-content-between align-items-center bg-white py-3">
-            <div>
-                <i class="fas fa-university me-1"></i>
-                Daftar Rekening Pembayaran
-            </div>
-            <div>
-                <a href="<?= base_url('banks/trash') ?>" class="btn btn-outline-secondary btn-sm me-2">
-                    <i class="fas fa-trash-restore"></i> Sampah
-                </a>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBank">
-                    <i class="fas fa-plus"></i> Tambah Bank
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Logo</th>
-                            <th>Nama Bank</th>
-                            <th>Nomor Rekening</th>
-                            <th>Nama Pemilik</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($banks as $bank) : ?>
-                            <tr>
-                                <td>
-                                    <img src="<?= base_url('uploads/images/' . ($bank['bank_logo'] ?: 'default.png')) ?>"
-                                        alt="Logo" style="height: 30px; width: auto; object-fit: contain;">
-                                </td>
-                                <td class="fw-bold"><?= esc($bank['bank_name']) ?></td>
-                                <td><code><?= esc($bank['account_number']) ?></code></td>
-                                <td><?= esc($bank['account_holder']) ?></td>
-                                <td>
-                                    <span class="badge <?= $bank['is_active'] ? 'bg-success' : 'bg-danger' ?>">
-                                        <?= $bank['is_active'] ? 'Aktif' : 'Non-Aktif' ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-info text-white btn-edit"
-                                        data-id="<?= $bank['id'] ?>"
-                                        data-name="<?= $bank['bank_name'] ?>"
-                                        data-number="<?= $bank['account_number'] ?>"
-                                        data-holder="<?= $bank['account_holder'] ?>"
-                                        data-active="<?= $bank['is_active'] ?>">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <a href="<?= base_url('banks/delete/' . $bank['id']) ?>"
-                                        class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Pindahkan ke tempat sampah?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="mb-6 flex justify-between items-end">
+    <div>
+        <h1 class="text-2xl font-bold">Manajemen Bank</h1>
+        <nav class="flex space-x-4 mt-4" aria-label="Tabs">
+            <button onclick="switchTab('active', this)" class="tab-btn active-tab px-3 py-2 font-medium text-sm rounded-md bg-blue-100 text-blue-700" id="tab-active">
+                Rekening Aktif
+            </button>
+            <button onclick="switchTab('trash', this)" class="tab-btn px-3 py-2 font-medium text-sm text-gray-500 hover:text-gray-700 rounded-md" id="tab-trash">
+                Tong Sampah
+            </button>
+        </nav>
     </div>
+    <button onclick="openAddModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <i class="fas fa-plus mr-2"></i> Tambah Bank
+    </button>
 </div>
 
-<div class="modal fade" id="modalBank" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <form action="<?= base_url('banks/store') ?>" method="POST" enctype="multipart/form-data" id="formBank">
-            <?= csrf_field() ?>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Tambah Bank Baru</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Nama Bank</label>
-                        <input type="text" name="bank_name" id="bank_name" class="form-control" placeholder="Contoh: BNI" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Nomor Rekening</label>
-                        <input type="text" name="account_number" id="account_number" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Nama Pemilik (A/N)</label>
-                        <input type="text" name="account_holder" id="account_holder" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Logo Bank</label>
-                        <input type="file" name="bank_logo" class="form-control" accept="image/*">
-                        <small class="text-muted italic">Format: PNG/JPG/SVG. Kosongkan jika tidak ingin mengubah logo.</small>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" checked>
-                        <label class="form-check-label">Status Aktif</label>
-                    </div>
-                </div>
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan Data</button>
-                </div>
-            </div>
-        </form>
-    </div>
+<div class="glass-card dark:glass-card-dark overflow-hidden shadow-xl rounded-xl">
+    <table class="w-full text-left">
+        <thead class="bg-gray-50/50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400">
+            <tr>
+                <th class="px-6 py-4 text-xs font-semibold uppercase">Logo</th>
+                <th class="px-6 py-4 text-xs font-semibold uppercase">Bank & Atas Nama</th>
+                <th class="px-6 py-4 text-xs font-semibold uppercase">Rekening</th>
+                <th class="px-6 py-4 text-xs font-semibold uppercase text-center">Status</th>
+                <th class="px-6 py-4 text-xs font-semibold uppercase text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="table-content" class="divide-y divide-gray-200 dark:divide-gray-700">
+            <tr id="loading-row">
+                <td colspan="4" class="p-10 text-center">Memuat data...</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
+<?= $this->include('Modules\Payments\Views\bank\partials\_modal') ?>
+
 <?= $this->endSection() ?>
 
-<?= $this->section('script') ?>
+<?= $this->section('scripts') ?>
 <script>
-    $(document).ready(function() {
-        // Logika Ganti Mode Tambah ke Edit
-        $('.btn-edit').on('click', function() {
-            const id = $(this).data('id');
-            $('#modalTitle').text('Edit Data Bank');
-            $('#formBank').attr('action', '<?= base_url('banks/update') ?>/' + id);
+    let currentType = 'active';
 
-            $('#bank_name').val($(this).data('name'));
-            $('#account_number').val($(this).data('number'));
-            $('#account_holder').val($(this).data('holder'));
-            $('#is_active').prop('checked', $(this).data('active') == 1);
-
-            $('#modalBank').modal('show');
-        });
-
-        // Reset modal saat ditutup
-        $('#modalBank').on('hidden.bs.modal', function() {
-            $('#formBank').attr('action', '<?= base_url('banks/store') ?>');
-            $('#modalTitle').text('Tambah Bank Baru');
-            $('#formBank')[0].reset();
-        });
+    // Panggil data pertama kali saat halaman load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadData('active');
     });
+
+    function switchTab(type, el) {
+        // Reset style tab
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('bg-blue-100', 'text-blue-700');
+            btn.classList.add('text-gray-500');
+        });
+        // Set active style
+        el.classList.add('bg-blue-100', 'text-blue-700');
+        el.classList.remove('text-gray-500');
+
+        loadData(type);
+    }
+
+    function loadData(type) {
+        currentType = type;
+        const container = document.getElementById('table-content');
+        container.innerHTML = '<tr><td colspan="4" class="p-10 text-center"><i class="fas fa-spinner fa-spin mr-2"></i>Memuat...</td></tr>';
+
+        fetch(`<?= base_url('banks/fetch') ?>/${type}`)
+            .then(response => response.text())
+            .then(html => {
+                container.innerHTML = html;
+            })
+            .catch(err => {
+                container.innerHTML = '<tr><td colspan="4" class="p-10 text-center text-red-500">Gagal memuat data.</td></tr>';
+            });
+    }
+
+    // Fungsi delete via AJAX agar tidak reload
+    function deleteBank(id) {
+        if (confirm('Pindahkan ke sampah?')) {
+            fetch(`<?= base_url('banks/delete') ?>/${id}`)
+                .then(() => {
+                    loadData(currentType); // Refresh tabel
+                    showToast('Berhasil dihapus');
+                });
+        }
+    }
+
+    function restoreBank(id) {
+        fetch(`<?= base_url('banks/restore') ?>/${id}`)
+            .then(() => {
+                loadData(currentType); // Refresh tabel
+                showToast('Berhasil dipulihkan');
+            });
+    }
 </script>
 <?= $this->endSection() ?>

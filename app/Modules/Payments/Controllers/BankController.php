@@ -138,7 +138,35 @@ class BankController extends BaseController
      */
     public function restore($id = null)
     {
-        $this->bankModel->update($id, ['deleted_at' => null]);
-        return redirect()->back()->with('success', 'Data bank berhasil dipulihkan.');
+        // Cari data termasuk yang sudah dihapus
+        $bank = $this->bankModel->withDeleted()->find($id);
+
+        if ($bank) {
+            // Cara paling ampuh merestore: set deleted_at menjadi null
+            $this->bankModel->update($id, ['deleted_at' => null]);
+
+            // Jika ini request AJAX (dari fetch)
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['status' => 'success']);
+            }
+
+            return redirect()->back()->with('success', 'Data bank berhasil dipulihkan.');
+        }
+
+        return redirect()->back()->with('error', 'Data tidak ditemukan.');
+    }
+
+    /**
+     * Fungsi untuk mengambil data tabel saja via AJAX
+     */
+    public function fetch($type = 'active')
+    {
+        if ($type === 'trash') {
+            $data['banks'] = $this->bankModel->onlyDeleted()->findAll();
+            return view('Modules\Payments\Views\bank\partials\_table_trash', $data);
+        }
+
+        $data['banks'] = $this->bankModel->findAll();
+        return view('Modules\Payments\Views\bank\partials\_table_active', $data);
     }
 }

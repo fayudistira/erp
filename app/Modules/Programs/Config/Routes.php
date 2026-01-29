@@ -2,6 +2,12 @@
 
 // JANGAN panggil Services::routes() di sini
 
+$routes->group('api', ['namespace' => 'Modules\Programs\Controllers'], function ($routes) {
+    $routes->get('programs', 'ProgramsController::apiIndex');
+    $routes->get('programs/(:any)', 'ProgramsController::apiIndex/$1');
+});
+
+
 $routes->group('programs', ['namespace' => 'Modules\Programs\Controllers'], function ($routes) {
     $routes->get('show/(:segment)', 'ProgramsController::show/$1');
 });
