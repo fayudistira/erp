@@ -4,10 +4,6 @@ use CodeIgniter\Config\Services;
 
 $routes = Services::routes();
 
-$routes->group('', ['namespace' => 'Modules\Pages\Controllers', 'filter' => 'session'], function ($routes) {
-    $routes->get('/', 'PagesController::home');
-});
-
 $routes->group('faq', ['namespace' => 'Modules\Pages\Controllers', 'filter' => 'group:admin'], function ($routes) {
     $routes->get('/', 'FaqController::index');
     $routes->get('create', 'FaqController::create');

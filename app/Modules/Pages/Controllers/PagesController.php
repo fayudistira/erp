@@ -17,7 +17,6 @@ class PagesController extends BaseController
         $this->faqModel = new FaqModel(); // Inisialisasi FaqModel
     }
 
-
     public function home()
     {
         // Ambil input filter jika ada
