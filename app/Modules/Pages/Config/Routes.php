@@ -4,7 +4,7 @@ use CodeIgniter\Config\Services;
 
 $routes = Services::routes();
 
-$routes->group('', ['namespace' => 'Modules\Pages\Controllers'], function ($routes) {
+$routes->group('', ['namespace' => 'Modules\Pages\Controllers', 'filter' => 'session'], function ($routes) {
     $routes->get('/', 'PagesController::home');
 });
 

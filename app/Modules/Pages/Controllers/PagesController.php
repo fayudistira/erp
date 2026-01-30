@@ -17,13 +17,8 @@ class PagesController extends BaseController
         $this->faqModel = new FaqModel(); // Inisialisasi FaqModel
     }
 
+
     public function home()
-    {
-        return view('App\Views\auth\login');
-    }
-
-
-    public function home2()
     {
         // Ambil input filter jika ada
         $category = $this->request->getVar('category');
