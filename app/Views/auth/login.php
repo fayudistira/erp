@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/forntend/main_layout') ?>
+<?= $this->extend('layouts/frontend/main_layout') ?>
 
 <?= $this->section('style') ?>
 <style>
