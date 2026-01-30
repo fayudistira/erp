@@ -2,7 +2,7 @@
 
 // JANGAN panggil Services::routes() di sini
 
-$routes->group('api', ['namespace' => 'Modules\Programs\Controllers'], function ($routes) {
+$routes->group('api', ['namespace' => 'Modules\Programs\Controllers', 'filter' => 'cors'], function ($routes) {
     $routes->get('programs', 'ProgramsController::apiIndex');
     $routes->get('programs/(:any)', 'ProgramsController::apiIndex/$1');
 });

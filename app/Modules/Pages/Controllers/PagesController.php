@@ -19,6 +19,12 @@ class PagesController extends BaseController
 
     public function home()
     {
+        return view('Views\auth\login');
+    }
+
+
+    public function home2()
+    {
         // Ambil input filter jika ada
         $category = $this->request->getVar('category');
         $classType = $this->request->getVar('classtype');
