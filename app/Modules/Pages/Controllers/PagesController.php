@@ -19,7 +19,7 @@ class PagesController extends BaseController
 
     public function home()
     {
-        return view('Views\auth\login');
+        return view('auth\login');
     }
 
 
